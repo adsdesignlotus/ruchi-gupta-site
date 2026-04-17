@@ -1,3 +1,5 @@
+import type { PastSlideshowSlide } from "@/lib/past-events";
+
 export type EventDetail = {
   slug: string;
   title: string;
@@ -5,6 +7,8 @@ export type EventDetail = {
   subtitle?: string;
   /** Detail page + Events hub cover when set (public URL under `/public`) */
   heroImage?: { src: string; alt: string };
+  /** Same shape as past events — local paths and/or Cloudinary `publicId` */
+  slideshow?: PastSlideshowSlide[];
   description: string;
   metaTitle: string;
   badge: string;
@@ -32,6 +36,12 @@ export const eventsBySlug: Record<string, EventDetail> = {
       src: "/events/nrityarchitum-18-2026/poster.png",
       alt: "NRITYACHITUM 2026 — ensemble in red and black Bharatanatyam costumes; event title and performance collage",
     },
+    slideshow: [
+      {
+        localSrc: "/events/nrityarchitum-18-2026/poster.png",
+        alt: "NRITYACHITUM 2026 — promotional poster and performance collage",
+      },
+    ],
     description: "A Celebration of Devotion through Dance",
     metaTitle:
       "18th Nrityarchitum — 26th April 2026, Delhi — Shubham Karoti Kalyanam | Ruchi Gupta",

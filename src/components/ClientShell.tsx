@@ -16,7 +16,7 @@ export default function ClientShell({
     <ImagePreviewProvider>
       <div className="relative z-10 flex min-h-screen flex-col">
         <Nav pathname={pathname} />
-        <main className="flex-1">{children}</main>
+        <main className="min-w-0 flex-1">{children}</main>
         <Footer />
       </div>
     </ImagePreviewProvider>

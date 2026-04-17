@@ -131,7 +131,7 @@ export function ImagePreviewProvider({
           if (e.target === e.currentTarget) close();
         }}
       >
-        <div className="relative flex max-h-[min(92vh,940px)] max-w-[min(96vw,1240px)] flex-col items-center">
+        <div className="relative flex w-full max-w-[min(96vw,1240px)] max-h-[min(92dvh,940px)] flex-col items-center px-1 sm:px-0">
           <div className="mb-2 flex w-full items-center justify-between gap-3 px-1 text-white/90">
             <button
               type="button"
@@ -153,7 +153,7 @@ export function ImagePreviewProvider({
                   e.stopPropagation();
                   goPrev();
                 }}
-                className="hover-brightness absolute left-0 top-1/2 z-10 -translate-y-1/2 rounded-full bg-primary/90 px-2.5 py-3 text-lg font-semibold text-white shadow-card sm:px-3.5"
+                className="hover-brightness absolute left-0.5 top-1/2 z-10 -translate-y-1/2 rounded-full bg-primary/90 px-2 py-2.5 text-base font-semibold text-white shadow-card sm:left-0 sm:px-3.5 sm:py-3 sm:text-lg"
                 aria-label="Previous image"
               >
                 ‹
@@ -166,7 +166,7 @@ export function ImagePreviewProvider({
                   e.stopPropagation();
                   goNext();
                 }}
-                className="hover-brightness absolute right-0 top-1/2 z-10 -translate-y-1/2 rounded-full bg-primary/90 px-2.5 py-3 text-lg font-semibold text-white shadow-card sm:px-3.5"
+                className="hover-brightness absolute right-0.5 top-1/2 z-10 -translate-y-1/2 rounded-full bg-primary/90 px-2 py-2.5 text-base font-semibold text-white shadow-card sm:right-0 sm:px-3.5 sm:py-3 sm:text-lg"
                 aria-label="Next image"
               >
                 ›
@@ -176,8 +176,8 @@ export function ImagePreviewProvider({
               src={current.src}
               alt={current.alt}
               className={cn(
-                "max-h-[min(78vh,860px)] max-w-[min(88vw,1100px)] object-contain shadow-2xl",
-                multi && "px-10 sm:px-14",
+                "max-h-[min(75dvh,860px)] w-auto max-w-[min(92vw,1100px)] object-contain shadow-2xl",
+                multi && "px-8 sm:px-14",
               )}
             />
             {current.alt ? (

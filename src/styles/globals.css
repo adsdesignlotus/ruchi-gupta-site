@@ -34,6 +34,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -44,6 +45,7 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
 }
 
 @layer components {
@@ -55,11 +57,39 @@ body {
     letter-spacing: 0.5px;
   }
 
-  /** Page content width + vertical rhythm */
+  /** Page content width + vertical rhythm (safe-area aware horizontal padding) */
   .page-shell {
-    @apply mx-auto max-w-content px-page-mobile md:px-page-tablet lg:px-page-desktop;
-    padding-top: clamp(5rem, 7vw, 7.5rem);
-    padding-bottom: clamp(5rem, 7vw, 7.5rem);
+    @apply mx-auto min-w-0 max-w-content;
+    padding-top: clamp(4rem, 6vw + 2rem, 7.5rem);
+    padding-bottom: clamp(4rem, 6vw + 2rem, 7.5rem);
+    padding-left: max(theme("spacing.page-mobile"), env(safe-area-inset-left, 0px));
+    padding-right: max(theme("spacing.page-mobile"), env(safe-area-inset-right, 0px));
+  }
+
+  @media (min-width: theme("screens.md")) {
+    .page-shell {
+      padding-left: max(
+        theme("spacing.page-tablet"),
+        env(safe-area-inset-left, 0px)
+      );
+      padding-right: max(
+        theme("spacing.page-tablet"),
+        env(safe-area-inset-right, 0px)
+      );
+    }
+  }
+
+  @media (min-width: theme("screens.lg")) {
+    .page-shell {
+      padding-left: max(
+        theme("spacing.page-desktop"),
+        env(safe-area-inset-left, 0px)
+      );
+      padding-right: max(
+        theme("spacing.page-desktop"),
+        env(safe-area-inset-right, 0px)
+      );
+    }
   }
 
   /** Readable column for long copy (≈600–700px) */

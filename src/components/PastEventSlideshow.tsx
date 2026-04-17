@@ -78,6 +78,7 @@ export function PastEventSlideshow({
                   <img
                     src={s.localSrc}
                     alt=""
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 360px"
                     loading="lazy"
                     decoding="async"
                     className="h-full w-full object-cover transition group-hover:scale-[1.02]"
@@ -86,6 +87,7 @@ export function PastEventSlideshow({
                   <img
                     src={cloudinaryImageUrl(cloudName!, s.publicId, 900)}
                     alt=""
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 360px"
                     loading="lazy"
                     decoding="async"
                     className="h-full w-full object-cover transition group-hover:scale-[1.02]"

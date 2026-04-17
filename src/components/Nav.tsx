@@ -19,14 +19,14 @@ export function Nav({ pathname }: { pathname: string }) {
       aria-label="Main"
     >
       <div className="mx-auto max-w-content px-page-mobile md:px-page-tablet lg:px-page-desktop">
-        <div className="flex h-14 items-center justify-between md:h-16">
+        <div className="flex h-14 min-w-0 items-center justify-between gap-2 md:h-16 md:gap-4">
           <a
-            className="hover-brightness flex items-end gap-0 font-serif text-lg font-semibold tracking-heading text-text-primary transition-colors hover:text-accent md:text-xl"
+            className="hover-brightness flex min-w-0 shrink items-end gap-0.5 font-serif text-lg font-semibold tracking-heading text-text-primary transition-colors hover:text-accent sm:gap-1 md:text-xl"
             href="/"
             onClick={() => setOpen(false)}
           >
             <LogoMark />
-            <span className="flex h-12 items-center justify-center font-serif text-[1.75rem] font-medium leading-none tracking-heading md:h-14 md:text-[2.125rem]">
+            <span className="flex h-12 min-w-0 items-center font-serif text-[clamp(1.25rem,4.2vw+0.6rem,2.125rem)] font-medium leading-none tracking-heading md:h-14">
               {site.name}
             </span>
           </a>
