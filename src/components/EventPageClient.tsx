@@ -21,9 +21,14 @@ export default function EventPageClient({
   past?: PastEventDetail | null;
   upcoming?: EventDetail | null;
 }) {
+  /**
+   * Outer block is required: `astro-island` uses `display: contents`, so the
+   * island’s outermost node must be a real box. A Context.Provider alone can
+   * confuse layout/hydration and leave only the fixed watermark visible.
+   */
   return (
-    <ImagePreviewProvider>
-      <div className="relative z-10 flex min-h-screen flex-col">
+    <div className="relative flex min-h-screen w-full flex-col bg-background">
+      <ImagePreviewProvider>
         <Nav pathname={pathname} />
         <main className="min-w-0 flex-1">
           {past ? (
@@ -33,7 +38,7 @@ export default function EventPageClient({
           ) : null}
         </main>
         <Footer />
-      </div>
-    </ImagePreviewProvider>
+      </ImagePreviewProvider>
+    </div>
   );
 }

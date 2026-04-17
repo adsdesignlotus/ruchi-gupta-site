@@ -44,7 +44,9 @@ const pathname = Astro.url.pathname;
     <WatermarkBg />
     {
       omitClientShell ? (
-        <slot />
+        <div class="relative z-10 flex min-h-screen w-full flex-col">
+          <slot />
+        </div>
       ) : (
         <ClientShell client:load pathname={pathname}>
           <slot />
