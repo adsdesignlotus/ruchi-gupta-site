@@ -1,0 +1,30 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  /** `cover` when a dedicated hero asset exists; otherwise `contain` for generic cover. */
+  fit: "cover" | "contain";
+}
+
+const { src, alt, fit } = Astro.props;
+const frameClass =
+  fit === "cover"
+    ? "hover-zoom relative mb-8 h-56 w-full max-w-md overflow-hidden rounded-card border border-black/[0.06] bg-fill shadow-card sm:mb-10 sm:h-64 sm:max-w-lg md:mb-12 md:h-72"
+    : "hover-zoom relative mb-8 aspect-video w-full max-w-3xl min-w-0 overflow-hidden rounded-card border border-black/[0.06] bg-fill shadow-card sm:mb-10 md:mb-12";
+const imgFit = fit === "cover" ? "object-cover" : "object-contain";
+---
+
+<div class={frameClass}>
+  <img
+    src={src}
+    alt={alt}
+    sizes={fit === "cover"
+      ? "(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 672px"
+      : "(max-width: 1024px) 100vw, 768px"}
+    width="800"
+    height="600"
+    loading="eager"
+    decoding="async"
+    class={`block h-full w-full object-center ${imgFit}`}
+  />
+</div>

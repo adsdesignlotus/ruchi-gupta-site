@@ -1,0 +1,277 @@
+---
+import { getCloudinaryCloudName } from "@/lib/cloudinary";
+import {
+  resolveGallerySlideSrc,
+  resolveGalleryThumbSrc,
+} from "@/lib/gallery-slide";
+import type { PastSlideshowSlide } from "@/lib/past-events";
+
+interface Props {
+  slides: PastSlideshowSlide[];
+  /** Caption under the placeholder grid when nothing resolves. */
+  emptyCaption?: string;
+}
+
+const {
+  slides,
+  emptyCaption = "Final photos and scans will appear here once they are added for this event.",
+} = Astro.props;
+
+const cloudName = getCloudinaryCloudName();
+const needsCloud = slides.some((s) => "publicId" in s && !("localSrc" in s));
+
+const items: { src: string; alt: string; thumb: string }[] = [];
+for (const s of slides) {
+  const src = resolveGallerySlideSrc(s, cloudName);
+  const thumb = resolveGalleryThumbSrc(s, cloudName) ?? src;
+  if (src && thumb) items.push({ src, alt: s.alt, thumb });
+}
+
+const showCloudWarning = needsCloud && !cloudName;
+const fillerSlots = items.length > 0 ? Math.max(0, 3 - items.length) : 0;
+const galleryForScript = items.map(({ src, alt }) => ({ src, alt }));
+---
+
+<div class="isolate min-w-0">
+  {
+    showCloudWarning ? (
+      <div class="rounded-card border border-dashed border-black/[0.12] bg-surface p-card text-center text-sm leading-prose text-text-secondary shadow-card">
+        Add{" "}
+        <code class="rounded bg-background px-1.5 py-0.5 text-text-primary">
+          PUBLIC_CLOUDINARY_CLOUD_NAME
+        </code>{" "}
+        for Cloudinary slides in this gallery.
+      </div>
+    ) : items.length === 0 ? (
+      <div class="space-y-4">
+        <ul
+          class="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:gap-3"
+          aria-label="Gallery image placeholders"
+        >
+          {[1, 2, 3].map((n) => (
+            <li>
+              <div
+                class="flex h-28 w-full flex-col items-center justify-center gap-1 rounded-card border border-dashed border-black/[0.14] bg-fill px-2 text-center shadow-inner sm:h-32 md:h-36"
+                role="img"
+                aria-label="Image placeholder"
+              >
+                <span class="font-mono text-[10px] font-medium uppercase tracking-widest text-text-secondary/70 md:text-xs">
+                  Image
+                </span>
+                <span class="text-[10px] leading-snug text-text-secondary/60 md:text-[11px]">
+                  Placeholder — replace with photo
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p class="max-w-reading text-left text-xs leading-prose text-text-secondary md:text-sm">
+          {emptyCaption}
+        </p>
+      </div>
+    ) : (
+      <>
+        <div class="space-y-5">
+          <ul class="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:gap-3">
+            {items.map((item, i) => (
+              <li>
+                <button
+                  type="button"
+                  class="js-event-gallery-open group relative h-28 w-full overflow-hidden rounded-card border border-black/[0.05] bg-fill text-left shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/35 sm:h-32 md:h-36"
+                  data-gallery-index={i}
+                  aria-label={`Open gallery: ${item.alt}`}
+                >
+                  <span class="absolute inset-0 block overflow-hidden">
+                    <img
+                      src={item.thumb}
+                      alt=""
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 360px"
+                      loading="eager"
+                      decoding="async"
+                      class="h-full w-full object-cover transition group-hover:scale-[1.02]"
+                    />
+                  </span>
+                  <span class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent px-2 py-2 text-left text-[11px] leading-prose text-white line-clamp-2 md:text-xs">
+                    {item.alt}
+                  </span>
+                </button>
+              </li>
+            ))}
+            {Array.from({ length: fillerSlots }).map((_, i) => (
+              <li>
+                <div
+                  class="flex h-28 w-full flex-col items-center justify-center gap-1 rounded-card border border-dashed border-black/[0.14] bg-fill px-2 text-center shadow-inner sm:h-32 md:h-36"
+                  role="img"
+                  aria-label="Image placeholder"
+                >
+                  <span class="font-mono text-[10px] font-medium uppercase tracking-widest text-text-secondary/70 md:text-xs">
+                    Image
+                  </span>
+                  <span class="text-[10px] leading-snug text-text-secondary/60 md:text-[11px]">
+                    More photos — to be added
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p class="text-center text-xs leading-prose text-text-secondary">
+            Tap a photo for full screen. Use ‹ › or arrow keys in the preview to
+            move between images.
+          </p>
+        </div>
+
+        <div
+          id="event-gallery-overlay"
+          class="event-gallery-overlay fixed inset-0 z-[9999] hidden flex min-h-dvh touch-manipulation items-center justify-center overscroll-contain bg-black/85 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Photo preview"
+        >
+          <div class="relative flex w-full max-w-[min(96vw,1240px)] max-h-[min(92dvh,940px)] flex-col items-center px-1 sm:px-0">
+            <div class="mb-2 flex w-full items-center justify-between gap-3 px-1 text-white/90">
+              <button
+                type="button"
+                class="event-gallery-close rounded-full bg-white/10 px-3 py-1.5 text-sm font-medium transition hover:bg-white/20"
+              >
+                Close
+              </button>
+              <span
+                class="event-gallery-counter text-sm tabular-nums"
+                aria-live="polite"
+              />
+            </div>
+            <div class="relative flex min-h-0 min-w-0 flex-col items-center">
+              <button
+                type="button"
+                class="event-gallery-prev hover-brightness absolute left-0.5 top-1/2 z-10 -translate-y-1/2 rounded-full bg-primary/90 px-2 py-2.5 text-base font-semibold text-white shadow-card sm:left-0 sm:px-3.5 sm:py-3 sm:text-lg"
+                aria-label="Previous image"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                class="event-gallery-next hover-brightness absolute right-0.5 top-1/2 z-10 -translate-y-1/2 rounded-full bg-primary/90 px-2 py-2.5 text-base font-semibold text-white shadow-card sm:right-0 sm:px-3.5 sm:py-3 sm:text-lg"
+                aria-label="Next image"
+              >
+                ›
+              </button>
+              <img
+                id="event-gallery-overlay-img"
+                src=""
+                alt=""
+                class="event-gallery-overlay-img max-h-[min(75dvh,860px)] w-auto max-w-[min(92vw,1100px)] object-contain px-8 shadow-2xl sm:px-14"
+              />
+              <p
+                id="event-gallery-overlay-caption"
+                class="mt-3 max-w-2xl px-4 text-center text-sm text-white/85"
+              />
+            </div>
+            <p class="mt-3 text-center text-xs text-white/60">
+              ‹ › or arrow keys · Escape or backdrop to close
+            </p>
+          </div>
+        </div>
+
+        <script define:vars={{ galleryForScript }}>
+          (function () {
+            const items = galleryForScript;
+            if (!items || items.length === 0) return;
+
+            const overlay = document.getElementById("event-gallery-overlay");
+            const imgEl = document.getElementById("event-gallery-overlay-img");
+            const capEl = document.getElementById("event-gallery-overlay-caption");
+            const counterEl = document.querySelector(".event-gallery-counter");
+            const closeBtn = document.querySelector(".event-gallery-close");
+            const prevBtn = document.querySelector(".event-gallery-prev");
+            const nextBtn = document.querySelector(".event-gallery-next");
+            if (
+              !overlay ||
+              !imgEl ||
+              !capEl ||
+              !counterEl ||
+              !closeBtn ||
+              !prevBtn ||
+              !nextBtn
+            )
+              return;
+
+            let idx = 0;
+            const multi = items.length > 1;
+
+            function render() {
+              const cur = items[idx];
+              if (!cur) return;
+              imgEl.src = cur.src;
+              imgEl.alt = cur.alt || "";
+              capEl.textContent = cur.alt || "";
+              counterEl.textContent = multi
+                ? `${idx + 1} / ${items.length}`
+                : "";
+              prevBtn.style.display = multi ? "" : "none";
+              nextBtn.style.display = multi ? "" : "none";
+              capEl.style.display = cur.alt ? "" : "none";
+            }
+
+            function open(at) {
+              idx = Math.max(0, Math.min(at, items.length - 1));
+              render();
+              overlay.classList.remove("hidden");
+              overlay.classList.add("flex");
+              document.body.style.overflow = "hidden";
+            }
+
+            function close() {
+              overlay.classList.add("hidden");
+              overlay.classList.remove("flex");
+              document.body.style.overflow = "";
+            }
+
+            document.querySelectorAll(".js-event-gallery-open").forEach((btn) => {
+              btn.addEventListener("click", () => {
+                const raw = btn.getAttribute("data-gallery-index");
+                const i = raw ? parseInt(raw, 10) : 0;
+                open(Number.isFinite(i) ? i : 0);
+              });
+            });
+
+            overlay.addEventListener("click", (e) => {
+              if (e.target === overlay) close();
+            });
+            closeBtn.addEventListener("click", close);
+            prevBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              idx = (idx - 1 + items.length) % items.length;
+              render();
+            });
+            nextBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              idx = (idx + 1) % items.length;
+              render();
+            });
+
+            function onKey(e) {
+              if (overlay.classList.contains("hidden")) return;
+              if (e.key === "Escape") {
+                e.preventDefault();
+                close();
+                return;
+              }
+              if (!multi) return;
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                idx = (idx - 1 + items.length) % items.length;
+                render();
+              }
+              if (e.key === "ArrowRight") {
+                e.preventDefault();
+                idx = (idx + 1) % items.length;
+                render();
+              }
+            }
+            window.addEventListener("keydown", onKey);
+          })();
+        </script>
+      </>
+    )
+  }
+</div>

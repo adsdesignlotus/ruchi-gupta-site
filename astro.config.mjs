@@ -8,10 +8,8 @@ export default defineConfig({
   output: "hybrid",
   adapter: vercel(),
   integrations: [
-    // `experimentalReactChildren` re-parses slot HTML as React nodes, which breaks
-    // nested client islands (e.g. PastEventContent inside ClientShell): props get
-    // double-encoded and JSON.parse fails → blank page. Default StaticHtml keeps
-    // `astro-slot` innerHTML intact so nested islands hydrate correctly.
+    // Default StaticHtml keeps `astro-slot` innerHTML intact. Event detail pages use
+    // `omitClientShell` + static Astro markup so copy is never gated on a giant island.
     react(),
     tailwind({ applyBaseStyles: false }),
   ],

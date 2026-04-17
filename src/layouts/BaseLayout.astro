@@ -1,6 +1,5 @@
 ---
 import "../styles/globals.css";
-import { WatermarkBg } from "@/components/Watermark";
 import ClientShell from "@/components/ClientShell";
 
 interface Props {
@@ -41,7 +40,16 @@ const pathname = Astro.url.pathname;
     />
   </head>
   <body class="flex min-h-screen flex-col bg-background text-text-primary">
-    <WatermarkBg />
+    <!-- Static markup (not React) so it never depends on island hydration -->
+    <div
+      class="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      aria-hidden="true"
+    >
+      <div
+        class="js-parallax-watermark absolute inset-0 will-change-transform opacity-[0.04] blur-[0.5px]"
+        style="mask-image:url(/watermark.png);-webkit-mask-image:url(/watermark.png);mask-size:contain;-webkit-mask-size:contain;mask-repeat:no-repeat;-webkit-mask-repeat:no-repeat;mask-position:center;-webkit-mask-position:center;background-color:var(--color-primary)"
+      />
+    </div>
     {
       omitClientShell ? (
         <div class="relative z-10 flex min-h-screen w-full flex-col">
@@ -53,5 +61,44 @@ const pathname = Astro.url.pathname;
         </ClientShell>
       )
     }
+    <script is:inline>
+      (function () {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+          return;
+        var wm = document.querySelector(".js-parallax-watermark");
+        var heroWrap = document.querySelector(".js-parallax-hero-wrap");
+        var ticking = false;
+        function tick() {
+          ticking = false;
+          var y = window.scrollY || 0;
+          if (wm) {
+            wm.style.transform =
+              "translate3d(0," + Math.round(y * 0.052) + "px,0)";
+          }
+          if (heroWrap) {
+            var rect = heroWrap.getBoundingClientRect();
+            var vh = window.innerHeight || 1;
+            if (rect.bottom > -100 && rect.top < vh + 100) {
+              var center = rect.top + rect.height * 0.5;
+              var shift = Math.round((vh * 0.5 - center) * 0.045);
+              shift = Math.max(-32, Math.min(32, shift));
+              heroWrap.style.transform =
+                "translate3d(0," + shift + "px,0)";
+            } else {
+              heroWrap.style.transform = "";
+            }
+          }
+        }
+        function onScroll() {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(tick);
+          }
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll, { passive: true });
+        tick();
+      })();
+    </script>
   </body>
 </html>

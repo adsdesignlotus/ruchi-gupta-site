@@ -141,3 +141,13 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
+
+/*
+ * Astro ships a style tag with `astro-island { display: contents }`. That removes
+ * the island from the box tree and can collapse fixed-height React children (e.g.
+ * event gallery thumbnails). Force a real formatting context for islands.
+ */
+astro-island {
+  display: block !important;
+  min-width: 0;
+}

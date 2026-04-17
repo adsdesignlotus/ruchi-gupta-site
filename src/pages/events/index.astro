@@ -1,15 +1,28 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { Nav } from "@/components/Nav";
+import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import EventsTabs from "@/components/EventsTabs.astro";
+
+const pathname = Astro.url.pathname;
+const title = "Events Hub | Ruchi Gupta";
+const description =
+  "Upcoming performances, past Nrityarchitum festivals, and workshops at Kirti Natya Niketan.";
 ---
 
-<BaseLayout>
-  <div class="page-shell">
-    <PageHeader
-      title="Events Hub"
-      subtitle="Upcoming performances, workshops, and tours. Login-based visibility will be applied later."
-    />
-    <EventsTabs />
+<BaseLayout title={title} description={description} omitClientShell>
+  <div class="relative z-10 flex min-h-screen w-full flex-col bg-background">
+    <Nav client:load pathname={pathname} />
+    <main class="min-w-0 flex-1">
+      <div class="page-shell">
+        <PageHeader
+          title="Events Hub"
+          subtitle="Browse upcoming performances, past festivals, and workshops. Each card links to a full page with details and a gallery you can explore in place."
+        />
+        <EventsTabs />
+      </div>
+    </main>
+    <Footer />
   </div>
 </BaseLayout>

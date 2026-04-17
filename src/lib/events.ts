@@ -1,4 +1,5 @@
 import type { PastSlideshowSlide } from "@/lib/past-events";
+import { photos } from "@/lib/site-images";
 
 export type EventDetail = {
   slug: string;
@@ -9,7 +10,9 @@ export type EventDetail = {
   heroImage?: { src: string; alt: string };
   /** Short blurb on the Events hub card (optional; falls back to `description`) */
   listSummary?: string;
-  /** Same shape as past events — local paths and/or Cloudinary `publicId` */
+  /** Invitation & promotional art — `#gallery` on the event page (same preview as other galleries) */
+  gallery?: PastSlideshowSlide[];
+  /** Extra photos (optional); when empty, only Gallery is shown */
   slideshow?: PastSlideshowSlide[];
   description: string;
   metaTitle: string;
@@ -38,14 +41,14 @@ export const eventsBySlug: Record<string, EventDetail> = {
       src: "/events/nrityarchitum-18-2026/cover.png",
       alt: "18th Nrityarchitum — Shubham Karoti Kalyanam — Kirti Natya Niketan; classical Bharatanatyam performance poster",
     },
-    slideshow: [
+    gallery: [
       {
         localSrc: "/events/nrityarchitum-18-2026/cover.png",
-        alt: "18th Nrityarchitum — Shubham Karoti Kalyanam — event poster",
+        alt: "Invitation poster for Kirti Natya Niketan’s 18th Nrityarchitum — Shubham Karoti Kalyanam — group of Bharatanatyam dancers in traditional attire",
       },
       {
         localSrc: "/events/nrityarchitum-18-2026/poster.png",
-        alt: "NRITYACHITUM 2026 — ensemble collage and performance moments",
+        alt: "NRITYACHITUM 2026 — promotional ensemble collage and performance moments",
       },
     ],
     listSummary:
@@ -110,5 +113,52 @@ export const eventsBySlug: Record<string, EventDetail> = {
   },
 };
 
-/** Featured card on Events Hub — keep in sync with the slug above */
-export const featuredUpcomingEvent = eventsBySlug["nrityarchitum-18-2026"]!;
+export type UpcomingEventCard = {
+  slug: string;
+  title: string;
+  subtitle?: string;
+  when: string;
+  whenIso: string;
+  city: string;
+  summary: string;
+  coverSrc: string;
+  coverAlt: string;
+};
+
+function cardCover(e: EventDetail): { coverSrc: string; coverAlt: string } {
+  if (e.heroImage) {
+    return { coverSrc: e.heroImage.src, coverAlt: e.heroImage.alt };
+  }
+  const g0 = e.gallery?.[0];
+  if (g0 && "localSrc" in g0) {
+    return { coverSrc: g0.localSrc, coverAlt: g0.alt };
+  }
+  return {
+    coverSrc: photos.p01,
+    coverAlt: e.title,
+  };
+}
+
+/** All upcoming festival/show pages — hub “Upcoming” tab */
+export const upcomingEventsList: UpcomingEventCard[] = Object.values(
+  eventsBySlug,
+)
+  .map((e) => {
+    const { coverSrc, coverAlt } = cardCover(e);
+    const title =
+      e.subtitle && e.subtitle.length > 0
+        ? `${e.title} — ${e.subtitle}`
+        : e.title;
+    return {
+      slug: e.slug,
+      title,
+      subtitle: e.subtitle,
+      when: e.when,
+      whenIso: e.whenIso,
+      city: e.city,
+      summary: e.listSummary ?? e.description,
+      coverSrc,
+      coverAlt,
+    };
+  })
+  .sort((a, b) => a.whenIso.localeCompare(b.whenIso));

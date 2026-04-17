@@ -1,9 +1,9 @@
 ---
 import { cloudinaryImageUrl, getCloudinaryCloudName } from "@/lib/cloudinary";
-import { featuredUpcomingEvent } from "@/lib/events";
+import { upcomingEventsList } from "@/lib/events";
 import { isValidHtmlDateTime } from "@/lib/html-datetime";
 import { pastEventsList } from "@/lib/past-events";
-import { eventsCardImage } from "@/lib/site-images";
+import { workshopsList } from "@/lib/workshops";
 
 const cloudName = getCloudinaryCloudName();
 
@@ -13,22 +13,27 @@ const tabBtnSelected = "border-accent text-text-primary";
 const tabBtnIdle =
   "border-transparent text-text-secondary hover:text-accent";
 
-function inviteSrcFor(ev: (typeof pastEventsList)[number]): string | null {
+function cloudinaryThumb(publicId: string): string | null {
+  if (!cloudName) return null;
+  return cloudinaryImageUrl(cloudName, publicId, 1600);
+}
+
+function pastCardSrc(ev: (typeof pastEventsList)[number]): string | null {
   if (ev.inviteLocalSrc) return ev.inviteLocalSrc;
   if (cloudName && ev.invitePublicId) {
-    return cloudinaryImageUrl(cloudName, ev.invitePublicId, 1600);
+    return cloudinaryThumb(ev.invitePublicId);
   }
   return null;
 }
 
-/** Hub card image: always prefer the event’s hero (e.g. `/events/.../cover.png`). */
-const upcomingCardImage = featuredUpcomingEvent.heroImage ?? eventsCardImage;
-const upcomingCardTitle = featuredUpcomingEvent.subtitle
-  ? `${featuredUpcomingEvent.title} — ${featuredUpcomingEvent.subtitle}`
-  : featuredUpcomingEvent.title;
-const upcomingCardSummary =
-  featuredUpcomingEvent.listSummary ?? featuredUpcomingEvent.description;
-/** Short fixed band — image uses object-cover so portraits fill without large letterboxing */
+function workshopCardSrc(ev: (typeof workshopsList)[number]): string | null {
+  if (ev.coverSrc) return ev.coverSrc;
+  if (cloudName && ev.coverPublicId) {
+    return cloudinaryThumb(ev.coverPublicId);
+  }
+  return null;
+}
+
 const eventCardImageWrap =
   "hover-zoom relative h-36 w-full overflow-hidden bg-fill sm:h-40 md:h-44";
 const eventCardBody =
@@ -68,21 +73,11 @@ const eventCardCta =
         type="button"
         role="tab"
         aria-selected="false"
-        data-events-tab="Workshops"
-        id="tab-workshops"
+        data-events-tab="Workshop"
+        id="tab-workshop"
         class:list={[tabBtnBase, tabBtnIdle]}
       >
-        Workshops
-      </button>
-      <button
-        type="button"
-        role="tab"
-        aria-selected="false"
-        data-events-tab="Tours"
-        id="tab-tours"
-        class:list={[tabBtnBase, tabBtnIdle]}
-      >
-        Tours
+        Workshop
       </button>
     </div>
   </div>
@@ -94,54 +89,45 @@ const eventCardCta =
     data-events-panel="Upcoming"
   >
     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6">
-      <a
-        href={`/events/${featuredUpcomingEvent.slug}`}
-        class="card-elevated flex flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
-        data-visibility="public"
-      >
-        <div class:list={[eventCardImageWrap]}>
-          <div class="absolute inset-0 bg-fill">
-            <img
-              src={upcomingCardImage.src}
-              alt={upcomingCardImage.alt}
-              sizes="(max-width: 1024px) 100vw, 400px"
-              loading="eager"
-              decoding="async"
-              fetchpriority="high"
-              class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
-            />
-          </div>
-        </div>
-        <div class:list={[eventCardBody]}>
-          <div
-            class="mb-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-text-secondary"
+      {
+        upcomingEventsList.map((ev) => (
+          <a
+            href={`/events/${ev.slug}`}
+            class="card-elevated flex flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
+            data-visibility="public"
           >
-            {
-              isValidHtmlDateTime(featuredUpcomingEvent.whenIso) ? (
-                <time datetime={featuredUpcomingEvent.whenIso}>
-                  {featuredUpcomingEvent.when}
-                </time>
-              ) : (
-                <span>{featuredUpcomingEvent.when}</span>
-              )
-            }
-            <span>{featuredUpcomingEvent.city}</span>
-          </div>
-          <h3
-            class="font-serif text-subsection-title font-semibold leading-snug tracking-heading text-text-primary"
-          >
-            {upcomingCardTitle}
-          </h3>
-          <p
-            class="mt-1.5 flex-1 line-clamp-2 text-sm leading-snug text-text-secondary"
-          >
-            {upcomingCardSummary}
-          </p>
-          <span class:list={[eventCardCta]}>
-            View programme & details
-          </span>
-        </div>
-      </a>
+            <div class:list={[eventCardImageWrap]}>
+              <div class="absolute inset-0 bg-fill">
+                <img
+                  src={ev.coverSrc}
+                  alt={ev.coverAlt}
+                  sizes="(max-width: 1024px) 100vw, 400px"
+                  loading="lazy"
+                  decoding="async"
+                  class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+                />
+              </div>
+            </div>
+            <div class:list={[eventCardBody]}>
+              <div class="mb-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-text-secondary">
+                {isValidHtmlDateTime(ev.whenIso) ? (
+                  <time datetime={ev.whenIso}>{ev.when}</time>
+                ) : (
+                  <span>{ev.when}</span>
+                )}
+                <span>{ev.city}</span>
+              </div>
+              <h3 class="font-serif text-subsection-title font-semibold leading-snug tracking-heading text-text-primary">
+                {ev.title}
+              </h3>
+              <p class="mt-1.5 flex-1 line-clamp-2 text-sm leading-snug text-text-secondary">
+                {ev.summary}
+              </p>
+              <span class:list={[eventCardCta]}>View details</span>
+            </div>
+          </a>
+        ))
+      }
     </div>
   </div>
 
@@ -155,19 +141,18 @@ const eventCardCta =
     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6">
       {
         pastEventsList.map((ev) => {
-          const inviteSrc = inviteSrcFor(ev);
-          const inviteAlt = `Invitation — ${ev.title}`;
+          const imgSrc = pastCardSrc(ev);
           return (
             <a
               href={`/events/${ev.slug}`}
               class="card-elevated flex flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
             >
               <div class:list={[eventCardImageWrap]}>
-                {inviteSrc ? (
+                {imgSrc ? (
                   <div class="absolute inset-0 bg-fill">
                     <img
-                      src={inviteSrc}
-                      alt={inviteAlt}
+                      src={imgSrc}
+                      alt={`Invitation — ${ev.title}`}
                       sizes="(max-width: 1024px) 100vw, 400px"
                       loading="lazy"
                       decoding="async"
@@ -180,7 +165,7 @@ const eventCardCta =
                     <code class="mx-1 rounded bg-background px-1">
                       PUBLIC_CLOUDINARY_CLOUD_NAME
                     </code>{" "}
-                    or a local invite image in data
+                    or a local image in event data
                   </div>
                 )}
               </div>
@@ -199,9 +184,7 @@ const eventCardCta =
                 <p class="mt-1.5 flex-1 line-clamp-2 text-sm leading-snug text-text-secondary">
                   {ev.summary}
                 </p>
-                <span class:list={[eventCardCta]}>
-                  View invites & gallery
-                </span>
+                <span class:list={[eventCardCta]}>View summary & gallery</span>
               </div>
             </a>
           );
@@ -212,22 +195,71 @@ const eventCardCta =
 
   <div
     role="tabpanel"
-    id="panel-workshops"
-    aria-labelledby="tab-workshops"
-    data-events-panel="Workshops"
+    id="panel-workshop"
+    aria-labelledby="tab-workshop"
+    data-events-panel="Workshop"
     hidden
-    class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3"
   >
-  </div>
-
-  <div
-    role="tabpanel"
-    id="panel-tours"
-    aria-labelledby="tab-tours"
-    data-events-panel="Tours"
-    hidden
-    class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3"
-  >
+    {
+      workshopsList.length === 0 ? (
+        <p class="max-w-reading rounded-card border border-black/[0.06] bg-surface p-card text-left text-sm leading-prose text-text-secondary shadow-card">
+          Workshop listings will appear here with dates, photos, and summaries.
+          Add entries in{" "}
+          <code class="rounded bg-background px-1.5 py-0.5 text-text-primary">
+            src/lib/workshops.ts
+          </code>{" "}
+          when you are ready to publish.
+        </p>
+      ) : (
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6">
+          {workshopsList.map((ev) => {
+            const imgSrc = workshopCardSrc(ev);
+            return (
+              <a
+                href={`/events/${ev.slug}`}
+                class="card-elevated flex flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
+              >
+                <div class:list={[eventCardImageWrap]}>
+                  {imgSrc ? (
+                    <div class="absolute inset-0 bg-fill">
+                      <img
+                        src={imgSrc}
+                        alt={`${ev.title} — cover`}
+                        sizes="(max-width: 1024px) 100vw, 400px"
+                        loading="lazy"
+                        decoding="async"
+                        class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+                      />
+                    </div>
+                  ) : (
+                    <div class="absolute inset-0 flex items-center justify-center bg-fill px-4 text-center text-xs text-text-secondary">
+                      Add a cover image in workshop data
+                    </div>
+                  )}
+                </div>
+                <div class:list={[eventCardBody]}>
+                  <div class="mb-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-text-secondary">
+                    {isValidHtmlDateTime(ev.whenIso) ? (
+                      <time datetime={ev.whenIso}>{ev.when}</time>
+                    ) : (
+                      <span>{ev.when}</span>
+                    )}
+                    <span>{ev.city}</span>
+                  </div>
+                  <h3 class="font-serif text-subsection-title font-semibold leading-snug tracking-heading text-text-primary">
+                    {ev.title}
+                  </h3>
+                  <p class="mt-1.5 flex-1 line-clamp-2 text-sm leading-snug text-text-secondary">
+                    {ev.summary}
+                  </p>
+                  <span class:list={[eventCardCta]}>View details</span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      )
+    }
   </div>
 </div>
 
@@ -239,8 +271,7 @@ const eventCardCta =
       "rounded-t-card border-b-2 px-4 py-3 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 border-transparent text-text-secondary hover:text-accent";
 
     function bind(root) {
-      if (!root || root.dataset.eventsTabsBound === "1") return;
-      root.dataset.eventsTabsBound = "1";
+      if (!root) return;
 
       function activate(key) {
         var buttons = root.querySelectorAll("[data-events-tab]");
@@ -258,12 +289,17 @@ const eventCardCta =
         });
       }
 
-      root.addEventListener("click", function (e) {
+      if (root._eventsTabHandler) {
+        root.removeEventListener("click", root._eventsTabHandler);
+      }
+      function onClick(e) {
         var t = e.target && e.target.closest("[data-events-tab]");
         if (!t || !root.contains(t)) return;
         var key = t.getAttribute("data-events-tab");
         if (key) activate(key);
-      });
+      }
+      root._eventsTabHandler = onClick;
+      root.addEventListener("click", onClick);
 
       var initial = "Upcoming";
       root.querySelectorAll("[data-events-tab]").forEach(function (btn) {
@@ -279,7 +315,11 @@ const eventCardCta =
       bind(document.getElementById("events-hub-tabs"));
     }
 
-    init();
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
     document.addEventListener("astro:page-load", init);
   })();
 </script>
