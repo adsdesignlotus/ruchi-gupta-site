@@ -19,7 +19,10 @@ export type EventDetail = {
   badge: string;
   when: string;
   whenIso: string;
+  /** Short place name for hub cards (e.g. city) */
   city: string;
+  /** Full venue on the detail page when set; otherwise `city` is shown */
+  venue?: string;
   aboutTitle: string;
   aboutBody: string;
   programmeIntro: string;
@@ -60,6 +63,8 @@ export const eventsBySlug: Record<string, EventDetail> = {
     when: "26th April 2026",
     whenIso: "2026-04-26",
     city: "Delhi",
+    venue:
+      "Triveni Kala Sangam 205, Tansen Marg, Todermal Road Area, Mandi House, Delhi, New Delhi, Delhi 110001",
     aboutTitle: "About the evening",
     aboutBody:
       "Kirti Natya Niketan invites you to an evening where tradition, rhythm, and storytelling come alive through the timeless art of Bharatanatyam. Witness an immersive performance where every gesture speaks, every rhythm resonates, and every moment reflects devotion.",

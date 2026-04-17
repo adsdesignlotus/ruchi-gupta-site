@@ -36,6 +36,9 @@ function workshopCardSrc(ev: (typeof workshopsList)[number]): string | null {
 
 const eventCardImageWrap =
   "hover-zoom relative h-36 w-full overflow-hidden bg-fill sm:h-40 md:h-44";
+/** Match performance cards: cover fill, crop from bottom, keep heads near top. */
+const eventCardImgClass =
+  "pointer-events-none absolute inset-0 h-full w-full object-cover object-top";
 const eventCardBody =
   "flex flex-1 flex-col p-4 md:p-5";
 const eventCardCta =
@@ -88,12 +91,12 @@ const eventCardCta =
     aria-labelledby="tab-upcoming"
     data-events-panel="Upcoming"
   >
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6">
+    <div class="grid min-w-0 grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4 xl:gap-6">
       {
         upcomingEventsList.map((ev) => (
           <a
             href={`/events/${ev.slug}`}
-            class="card-elevated flex flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
+            class="card-elevated flex min-w-0 flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
             data-visibility="public"
           >
             <div class:list={[eventCardImageWrap]}>
@@ -104,20 +107,21 @@ const eventCardCta =
                   sizes="(max-width: 1024px) 100vw, 400px"
                   loading="lazy"
                   decoding="async"
-                  class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+                  class={eventCardImgClass}
                 />
               </div>
             </div>
             <div class:list={[eventCardBody]}>
-              <div class="mb-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-text-secondary">
+              <p class="mb-1.5 text-xs leading-snug text-text-secondary">
                 {isValidHtmlDateTime(ev.whenIso) ? (
-                  <time datetime={ev.whenIso}>{ev.when}</time>
+                  <time class="tabular-nums" datetime={ev.whenIso}>{ev.when}</time>
                 ) : (
-                  <span>{ev.when}</span>
+                  <span class="tabular-nums">{ev.when}</span>
                 )}
-                <span>{ev.city}</span>
-              </div>
-              <h3 class="font-serif text-subsection-title font-semibold leading-snug tracking-heading text-text-primary">
+                <span class="mx-1.5 text-text-secondary/45" aria-hidden="true">·</span>
+                <span class="break-words">{ev.city}</span>
+              </p>
+              <h3 class="break-words font-serif text-subsection-title font-semibold leading-snug tracking-heading text-text-primary">
                 {ev.title}
               </h3>
               <p class="mt-1.5 flex-1 line-clamp-2 text-sm leading-snug text-text-secondary">
@@ -138,14 +142,14 @@ const eventCardCta =
     data-events-panel="Past"
     hidden
   >
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6">
+    <div class="grid min-w-0 grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4 xl:gap-6">
       {
         pastEventsList.map((ev) => {
           const imgSrc = pastCardSrc(ev);
           return (
             <a
               href={`/events/${ev.slug}`}
-              class="card-elevated flex flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
+              class="card-elevated flex min-w-0 flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
             >
               <div class:list={[eventCardImageWrap]}>
                 {imgSrc ? (
@@ -156,7 +160,7 @@ const eventCardCta =
                       sizes="(max-width: 1024px) 100vw, 400px"
                       loading="lazy"
                       decoding="async"
-                      class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+                      class={eventCardImgClass}
                     />
                   </div>
                 ) : (
@@ -170,15 +174,16 @@ const eventCardCta =
                 )}
               </div>
               <div class:list={[eventCardBody]}>
-                <div class="mb-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-text-secondary">
+                <p class="mb-1.5 text-xs leading-snug text-text-secondary">
                   {isValidHtmlDateTime(ev.whenIso) ? (
-                    <time datetime={ev.whenIso}>{ev.when}</time>
+                    <time class="tabular-nums" datetime={ev.whenIso}>{ev.when}</time>
                   ) : (
-                    <span>{ev.when}</span>
+                    <span class="tabular-nums">{ev.when}</span>
                   )}
-                  <span>{ev.city}</span>
-                </div>
-                <h3 class="font-serif text-subsection-title font-semibold leading-snug tracking-heading text-text-primary">
+                  <span class="mx-1.5 text-text-secondary/45" aria-hidden="true">·</span>
+                  <span class="break-words">{ev.city}</span>
+                </p>
+                <h3 class="break-words font-serif text-subsection-title font-semibold leading-snug tracking-heading text-text-primary">
                   {ev.title}
                 </h3>
                 <p class="mt-1.5 flex-1 line-clamp-2 text-sm leading-snug text-text-secondary">
@@ -211,13 +216,13 @@ const eventCardCta =
           when you are ready to publish.
         </p>
       ) : (
-        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6">
+        <div class="grid min-w-0 grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6 xl:grid-cols-4 xl:gap-6">
           {workshopsList.map((ev) => {
             const imgSrc = workshopCardSrc(ev);
             return (
               <a
                 href={`/events/${ev.slug}`}
-                class="card-elevated flex flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
+                class="card-elevated flex min-w-0 flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
               >
                 <div class:list={[eventCardImageWrap]}>
                   {imgSrc ? (
@@ -228,7 +233,7 @@ const eventCardCta =
                         sizes="(max-width: 1024px) 100vw, 400px"
                         loading="lazy"
                         decoding="async"
-                        class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+                        class={eventCardImgClass}
                       />
                     </div>
                   ) : (
@@ -238,15 +243,16 @@ const eventCardCta =
                   )}
                 </div>
                 <div class:list={[eventCardBody]}>
-                  <div class="mb-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-text-secondary">
+                  <p class="mb-1.5 text-xs leading-snug text-text-secondary">
                     {isValidHtmlDateTime(ev.whenIso) ? (
-                      <time datetime={ev.whenIso}>{ev.when}</time>
+                      <time class="tabular-nums" datetime={ev.whenIso}>{ev.when}</time>
                     ) : (
-                      <span>{ev.when}</span>
+                      <span class="tabular-nums">{ev.when}</span>
                     )}
-                    <span>{ev.city}</span>
-                  </div>
-                  <h3 class="font-serif text-subsection-title font-semibold leading-snug tracking-heading text-text-primary">
+                    <span class="mx-1.5 text-text-secondary/45" aria-hidden="true">·</span>
+                    <span class="break-words">{ev.city}</span>
+                  </p>
+                  <h3 class="break-words font-serif text-subsection-title font-semibold leading-snug tracking-heading text-text-primary">
                     {ev.title}
                   </h3>
                   <p class="mt-1.5 flex-1 line-clamp-2 text-sm leading-snug text-text-secondary">

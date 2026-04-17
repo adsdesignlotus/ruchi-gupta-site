@@ -59,7 +59,7 @@ body {
 
   /** Page content width + vertical rhythm (safe-area aware horizontal padding) */
   .page-shell {
-    @apply mx-auto min-w-0 max-w-content;
+    @apply mx-auto w-full min-w-0 max-w-content;
     padding-top: clamp(4rem, 6vw + 2rem, 7.5rem);
     padding-bottom: clamp(4rem, 6vw + 2rem, 7.5rem);
     padding-left: max(theme("spacing.page-mobile"), env(safe-area-inset-left, 0px));

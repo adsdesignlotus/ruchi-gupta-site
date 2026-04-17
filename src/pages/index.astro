@@ -5,22 +5,27 @@ import { HomeGalleryMasonry } from "@/components/HomeGalleryMasonry";
 import { InstagramFeed } from "@/components/InstagramFeed";
 import { PerformancesSection } from "@/components/PerformancesSection";
 import { performances } from "@/lib/performances";
+import { site } from "@/lib/site";
 
 const preview = performances.slice(0, 3);
 ---
 
 <BaseLayout>
   <section class="page-shell" aria-label="Introduction">
-    <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
+    <div
+      class="grid min-w-0 grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14"
+    >
       <div
-        class="order-2 text-center lg:order-1 lg:col-span-6 lg:text-left"
+        class="order-2 min-w-0 text-center lg:order-1 lg:col-span-6 lg:text-left"
       >
         <p
           class="type-accent-italic mb-5 text-sm uppercase tracking-widest text-text-primary md:text-base"
         >
-          Bharatanatyam Exponent · Cultural Ambassador · Guru
+          {site.tagline}
         </p>
-        <p class="mx-auto max-w-reading text-left text-base leading-prose text-text-primary md:mx-0 md:text-lg">
+        <p
+          class="mx-auto w-full min-w-0 max-w-none text-left text-base leading-prose text-text-primary md:mx-0 md:text-lg"
+        >
           Ruchi Gupta is a Bharatanatyam artist, graded Doordarshan artist, and
           Founder of Kirti Natya Niketan. Trained in the Pandanallur and Thanjavur
           traditions, she has performed across India and abroad under the Indian
@@ -30,27 +35,37 @@ const preview = performances.slice(0, 3);
           Delhi.
         </p>
         <p
-          class="mt-8 flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm leading-prose text-text-secondary md:justify-start md:text-base"
+          class="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-sm leading-prose text-text-secondary sm:gap-x-4 md:flex-nowrap md:justify-start md:gap-x-5 md:text-base"
         >
-          <a class="transition-colors hover:text-accent" href="/about"
-            >Explore her journey</a
+          <a
+            class="shrink-0 whitespace-nowrap transition-colors hover:text-accent"
+            href="/about">Explore her journey</a
           >
-          <span aria-hidden>·</span>
-          <a class="transition-colors hover:text-accent" href="/performances"
-            >View performances</a
+          <span class="shrink-0 text-text-secondary/40" aria-hidden="true"
+            >·</span
           >
-          <span aria-hidden>·</span>
-          <a class="transition-colors hover:text-accent" href="/events"
-            >Events hub</a
+          <a
+            class="shrink-0 whitespace-nowrap transition-colors hover:text-accent"
+            href="/performances">View performances</a
           >
-          <span aria-hidden>·</span>
-          <a class="transition-colors hover:text-accent" href="/contact"
-            >Connect with the institute</a
+          <span class="shrink-0 text-text-secondary/40" aria-hidden="true"
+            >·</span
+          >
+          <a
+            class="shrink-0 whitespace-nowrap transition-colors hover:text-accent"
+            href="/events">Events hub</a
+          >
+          <span class="shrink-0 text-text-secondary/40" aria-hidden="true"
+            >·</span
+          >
+          <a
+            class="shrink-0 whitespace-nowrap transition-colors hover:text-accent"
+            href="/contact">Connect with the institute</a
           >
         </p>
       </div>
       <div
-        class="js-parallax-hero-wrap order-1 w-full will-change-transform overflow-hidden lg:order-2 lg:col-span-6"
+        class="js-parallax-hero-wrap order-1 min-w-0 w-full will-change-transform overflow-hidden lg:order-2 lg:col-span-6"
       >
         <img
           src="/images/hero-dancer.png"

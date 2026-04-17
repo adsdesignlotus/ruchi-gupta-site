@@ -22,9 +22,10 @@ const config: Config = {
         maroon: "var(--color-maroon)",
       },
       maxWidth: {
-        content: "1200px",
-        /** Long-form reading (~672px) */
-        reading: "42rem",
+        /** Main column; fluid cap so wide viewports use more horizontal space */
+        content: "min(80rem, 100%)",
+        /** Long-form copy — wider than classic 65ch so lines do not break unnecessarily on large screens */
+        reading: "min(52rem, 100%)",
       },
       spacing: {
         "page-mobile": "20px",

@@ -115,7 +115,7 @@ function InstagramGridInner() {
 
   return (
     <>
-      <ul className="grid grid-cols-2 gap-px bg-black/[0.08] sm:grid-cols-4">
+      <ul className="grid min-w-0 grid-cols-2 gap-px bg-black/[0.08] sm:grid-cols-4">
         {items.map((item, index) => (
           <li key={item.id} className="relative aspect-square bg-fill">
             <button

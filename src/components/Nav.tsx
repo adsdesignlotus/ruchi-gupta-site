@@ -26,7 +26,7 @@ export function Nav({ pathname }: { pathname: string }) {
             onClick={() => setOpen(false)}
           >
             <LogoMark />
-            <span className="flex h-12 min-w-0 items-center font-serif text-[clamp(1.25rem,4.2vw+0.6rem,2.125rem)] font-medium leading-none tracking-heading md:h-14">
+            <span className="flex h-12 min-w-0 shrink-0 items-center whitespace-nowrap font-serif text-[clamp(1.25rem,4.2vw+0.6rem,2.125rem)] font-medium leading-none tracking-heading md:h-14">
               {site.name}
             </span>
           </a>

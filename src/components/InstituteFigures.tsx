@@ -15,7 +15,7 @@ export function InstituteFigures() {
   return (
     <ImagePreviewProvider>
       <div className="mt-12 space-y-section-gap md:mt-16">
-        <figure className="mx-auto max-w-lg">
+        <figure className="mx-auto w-full min-w-0 max-w-4xl">
           <div className="hover-zoom relative aspect-[3/4] w-full overflow-hidden rounded-card border border-black/[0.06] bg-fill shadow-card md:aspect-[4/5]">
             <FramedImage
               src={entrance.src}
@@ -30,8 +30,8 @@ export function InstituteFigures() {
           </figcaption>
         </figure>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-10">
-          <figure className="flex flex-col">
+        <div className="grid min-w-0 grid-cols-1 gap-8 md:grid-cols-2 lg:gap-10">
+          <figure className="flex min-w-0 flex-col">
             <div className="hover-zoom relative aspect-[16/10] w-full overflow-hidden rounded-card border border-black/[0.06] bg-fill shadow-card">
               <FramedImage
                 src={studio.src}
@@ -45,8 +45,8 @@ export function InstituteFigures() {
               Practice and training in the studio
             </figcaption>
           </figure>
-          <figure className="flex flex-col">
-            <div className="hover-zoom relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden rounded-card border border-black/[0.06] bg-fill shadow-card md:mx-0">
+          <figure className="flex min-w-0 flex-col">
+            <div className="hover-zoom relative aspect-[3/4] w-full min-w-0 overflow-hidden rounded-card border border-black/[0.06] bg-fill shadow-card">
               <FramedImage
                 src={mudra.src}
                 alt={mudra.alt}
@@ -61,8 +61,8 @@ export function InstituteFigures() {
           </figure>
         </div>
 
-        <figure>
-          <div className="hover-zoom relative aspect-[16/9] w-full overflow-hidden rounded-card border border-black/[0.06] bg-fill shadow-card md:aspect-[2/1]">
+        <figure className="min-w-0">
+          <div className="hover-zoom relative aspect-[16/9] w-full min-w-0 overflow-hidden rounded-card border border-black/[0.06] bg-fill shadow-card md:aspect-[2/1]">
             <FramedImage
               src={outdoor.src}
               alt={outdoor.alt}

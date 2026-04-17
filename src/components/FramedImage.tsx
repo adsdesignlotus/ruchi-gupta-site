@@ -21,6 +21,7 @@ export function FramedImage({
   previewable = true,
   gallery,
   fit = "contain",
+  objectPosition = "center",
 }: {
   /** Public path or absolute URL; empty string renders a placeholder instead of crashing */
   src: string;
@@ -36,6 +37,8 @@ export function FramedImage({
   gallery?: { items: GalleryItem[]; index: number };
   /** `cover` fills the frame (crops); `contain` shows full image (may letterbox). */
   fit?: "contain" | "cover";
+  /** Focal point when using `cover` (which edge stays visible when cropping). */
+  objectPosition?: "center" | "top" | "bottom";
 }) {
   const preview = useImagePreviewOptional();
   const canPreview = Boolean(preview && previewable);
@@ -98,8 +101,11 @@ export function FramedImage({
         loading={priority ? "eager" : "lazy"}
         decoding="async"
         className={cn(
-          "pointer-events-none absolute inset-0 h-full w-full object-center",
+          "pointer-events-none absolute inset-0 h-full w-full",
           fit === "cover" ? "object-cover" : "object-contain",
+          objectPosition === "top" && "object-top",
+          objectPosition === "bottom" && "object-bottom",
+          objectPosition === "center" && "object-center",
           imgClassName,
         )}
       />

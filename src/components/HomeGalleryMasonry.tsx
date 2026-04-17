@@ -23,7 +23,7 @@ function HomeGalleryMasonryInner() {
   };
 
   return (
-    <div className="grid auto-rows-[minmax(180px,auto)] grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
+    <div className="grid min-w-0 auto-rows-[minmax(180px,auto)] grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
       <div className="hover-zoom relative row-span-2 col-span-2 h-[min(420px,70vw)] overflow-hidden rounded-card border border-black/[0.05] bg-fill shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-hover md:col-span-1 md:h-[min(480px,55vh)]">
         <button
           type="button"

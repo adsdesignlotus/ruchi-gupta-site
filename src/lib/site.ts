@@ -1,6 +1,6 @@
 export const site = {
   name: "Ruchi Gupta",
-  tagline: "Bharatanatyam · Cultural Ambassador · Guru",
+  tagline: "Bharatanatyam Exponent | Artistic Director | Cultural Ambassador",
   instituteName: "Kirti Natya Niketan",
   instituteNameLegal: "KIRTI NATYA NIKETAN ®",
   instituteTagline: "CENTER FOR CLASSICAL ARTS",

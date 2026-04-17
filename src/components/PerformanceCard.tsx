@@ -48,22 +48,25 @@ export function PerformanceCard({
       : `View larger: ${imageAlt}`;
 
   return (
-    <article className="card-elevated relative flex flex-col">
+    <article className="card-elevated relative flex min-w-0 flex-col">
       <div className="hover-zoom relative h-40 w-full overflow-hidden bg-fill sm:h-44 md:h-48">
         <FramedImage
           src={image}
           alt={imageAlt}
           fit="cover"
+          objectPosition="top"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           gallery={gallery}
           previewable={!canOpenPreview}
         />
       </div>
       <div className="relative z-[1] flex flex-1 flex-col p-4 md:p-5">
-        <h3 className="font-serif text-subsection-title font-semibold tracking-heading text-text-primary">
+        <h3 className="break-words font-serif text-subsection-title font-semibold tracking-heading text-text-primary">
           {title}
         </h3>
-        <p className="mt-2 text-sm leading-prose text-text-secondary">{location}</p>
+        <p className="mt-2 break-words text-sm leading-prose text-text-secondary">
+          {location}
+        </p>
         {date ? (
           <p className="mt-1 text-xs leading-prose text-text-secondary">{date}</p>
         ) : null}

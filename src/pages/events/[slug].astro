@@ -2,11 +2,9 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import EventFooter from "@/components/event/EventFooter.astro";
 import EventGallery from "@/components/event/EventGallery.astro";
-import EventHero from "@/components/event/EventHero.astro";
 import EventNav from "@/components/event/EventNav.astro";
 import { eventsBySlug } from "@/lib/events";
 import { pastEventsBySlug } from "@/lib/past-events";
-import { eventsCardImage } from "@/lib/site-images";
 import { workshopsBySlug } from "@/lib/workshops";
 import { isValidHtmlDateTime } from "@/lib/html-datetime";
 
@@ -46,19 +44,19 @@ const isWorkshop = Boolean(workshop);
             >
               ← Back to Events
             </a>
-            <header class="mb-12 text-center md:mb-16 md:text-left">
+            <header class="mb-12 w-full min-w-0 text-center md:mb-16 md:text-left">
               <span class="mb-2 inline-block text-xs font-semibold uppercase tracking-widest text-maroon">
                 {past!.badge}
               </span>
-              <div class="mb-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm leading-prose text-text-secondary md:justify-start">
+              <div class="mb-2 flex w-full min-w-0 flex-col gap-1.5 text-sm leading-prose text-text-secondary items-center md:items-start">
                 {isValidHtmlDateTime(past!.whenIso) ? (
                   <time datetime={past!.whenIso}>{past!.when}</time>
                 ) : (
                   <span>{past!.when}</span>
                 )}
-                <span>{past!.city}</span>
+                <span class="w-full max-w-reading break-words text-center md:text-left">{past!.city}</span>
               </div>
-              <h1 class="font-serif text-display font-medium tracking-heading text-text-primary">
+              <h1 class="text-balance font-serif text-display font-medium tracking-heading text-text-primary">
                 {past!.title}
               </h1>
               <p class="mx-auto mt-5 max-w-reading text-left text-base leading-prose text-text-secondary md:mx-0 md:text-lg">
@@ -100,19 +98,19 @@ const isWorkshop = Boolean(workshop);
             >
               ← Back to Events
             </a>
-            <header class="mb-12 text-center md:mb-16 md:text-left">
+            <header class="mb-12 w-full min-w-0 text-center md:mb-16 md:text-left">
               <span class="mb-2 inline-block text-xs font-semibold uppercase tracking-widest text-maroon">
                 {workshop!.badge}
               </span>
-              <div class="mb-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm leading-prose text-text-secondary md:justify-start">
+              <div class="mb-2 flex w-full min-w-0 flex-col gap-1.5 text-sm leading-prose text-text-secondary items-center md:items-start">
                 {isValidHtmlDateTime(workshop!.whenIso) ? (
                   <time datetime={workshop!.whenIso}>{workshop!.when}</time>
                 ) : (
                   <span>{workshop!.when}</span>
                 )}
-                <span>{workshop!.city}</span>
+                <span class="w-full max-w-reading break-words text-center md:text-left">{workshop!.city}</span>
               </div>
-              <h1 class="font-serif text-display font-medium tracking-heading text-text-primary">
+              <h1 class="text-balance font-serif text-display font-medium tracking-heading text-text-primary">
                 {workshop!.title}
               </h1>
               <p class="mx-auto mt-5 max-w-reading text-left text-base leading-prose text-text-secondary md:mx-0 md:text-lg">
@@ -154,19 +152,21 @@ const isWorkshop = Boolean(workshop);
             >
               ← Back to Events
             </a>
-            <header class="mb-10 text-center sm:mb-12 md:mb-16 md:text-left">
+            <header class="mb-12 w-full min-w-0 text-center md:mb-16 md:text-left">
               <span class="mb-2 inline-block text-xs font-semibold uppercase tracking-widest text-maroon">
                 {upcoming!.badge}
               </span>
-              <div class="mb-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm leading-prose text-text-secondary md:justify-start">
+              <div class="mb-2 flex w-full min-w-0 flex-col gap-1.5 text-sm leading-prose text-text-secondary items-center md:items-start">
                 {isValidHtmlDateTime(upcoming!.whenIso) ? (
                   <time datetime={upcoming!.whenIso}>{upcoming!.when}</time>
                 ) : (
                   <span>{upcoming!.when}</span>
                 )}
-                <span>{upcoming!.city}</span>
+                <span class="w-full max-w-reading break-words text-center md:text-left">
+                  {upcoming!.venue ?? upcoming!.city}
+                </span>
               </div>
-              <h1 class="font-serif text-display font-medium tracking-heading text-text-primary">
+              <h1 class="text-balance font-serif text-display font-medium tracking-heading text-text-primary">
                 {upcoming!.title}
               </h1>
               {upcoming!.subtitle ? (
@@ -178,32 +178,6 @@ const isWorkshop = Boolean(workshop);
                 {upcoming!.description}
               </p>
             </header>
-            <EventHero
-              src={(upcoming!.heroImage ?? eventsCardImage).src}
-              alt={(upcoming!.heroImage ?? eventsCardImage).alt}
-              fit={upcoming!.heroImage ? "cover" : "contain"}
-            />
-            <section
-              id="gallery"
-              class="mt-12 scroll-mt-24 md:mt-16"
-              aria-labelledby="event-gallery-heading"
-            >
-              <header class="mb-8 md:mb-10">
-                <h2
-                  id="event-gallery-heading"
-                  class="font-serif text-content-title font-semibold tracking-heading text-text-primary"
-                >
-                  Gallery
-                </h2>
-              </header>
-              <EventGallery
-                slides={[
-                  ...(upcoming!.gallery ?? []),
-                  ...(upcoming!.slideshow ?? []),
-                ]}
-                emptyCaption="Posters, invitations, and rehearsal photos will appear here once they are added for this event."
-              />
-            </section>
             <div class="space-y-section-gap">
               <section aria-labelledby="event-summary-heading">
                 <header class="mb-8 md:mb-10">
@@ -219,38 +193,36 @@ const isWorkshop = Boolean(workshop);
                 </header>
               </section>
               <section aria-labelledby="event-programme-heading">
-                <header class="mb-8 md:mb-10">
+                <header class="mb-5 md:mb-6">
                   <h2
                     id="event-programme-heading"
                     class="font-serif text-content-title font-semibold tracking-heading text-text-primary"
                   >
                     {upcoming!.programmeHeading ?? "Programme"}
                   </h2>
-                  <p class="mt-5 max-w-reading text-left text-base leading-prose text-text-secondary md:mt-6 md:text-lg">
+                  <p class="mt-3 max-w-reading text-left text-sm leading-relaxed text-text-secondary md:text-base">
                     {upcoming!.programmeIntro}
                   </p>
                 </header>
-                <ol class="max-w-reading space-y-8">
+                <ol class="max-w-reading list-none border-y border-black/[0.06] pl-0">
                   {upcoming!.programmeItems.map((item, i) => (
-                    <li set:key={item.title}>
-                      <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                        <span class="text-sm font-semibold tabular-nums text-text-secondary">
-                          {i + 1}.
+                    <li
+                      set:key={item.title}
+                      class="border-b border-black/[0.06] py-3.5 last:border-b-0 sm:py-3"
+                    >
+                      <div class="flex gap-3 sm:gap-4">
+                        <span class="w-6 shrink-0 pt-0.5 text-right text-xs font-semibold tabular-nums text-text-secondary sm:w-7">
+                          {i + 1}
                         </span>
-                        <h3
-                          class:list={[
-                            "text-base font-semibold tracking-heading text-text-primary md:text-lg",
-                            item.title.includes("Shakthi")
-                              ? "font-accent font-medium italic"
-                              : "font-serif",
-                          ]}
-                        >
-                          {item.title}
-                        </h3>
+                        <div class="min-w-0 flex-1">
+                          <h3 class="font-serif text-[0.9375rem] font-semibold leading-snug tracking-heading text-text-primary sm:text-base">
+                            {item.title}
+                          </h3>
+                          <p class="mt-1.5 text-left text-sm leading-relaxed text-text-secondary">
+                            {item.body}
+                          </p>
+                        </div>
                       </div>
-                      <p class="mt-3 max-w-reading pl-0 text-left text-sm leading-prose text-text-secondary sm:pl-6 md:text-base">
-                        {item.body}
-                      </p>
                     </li>
                   ))}
                 </ol>
@@ -281,6 +253,27 @@ const isWorkshop = Boolean(workshop);
                 </dl>
               </section>
             </div>
+            <section
+              id="gallery"
+              class="mt-12 scroll-mt-24 md:mt-16"
+              aria-labelledby="event-gallery-heading"
+            >
+              <header class="mb-8 md:mb-10">
+                <h2
+                  id="event-gallery-heading"
+                  class="font-serif text-content-title font-semibold tracking-heading text-text-primary"
+                >
+                  Gallery
+                </h2>
+              </header>
+              <EventGallery
+                slides={[
+                  ...(upcoming!.gallery ?? []),
+                  ...(upcoming!.slideshow ?? []),
+                ]}
+                emptyCaption="Posters, invitations, and rehearsal photos will appear here once they are added for this event."
+              />
+            </section>
           </div>
         )
       }

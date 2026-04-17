@@ -71,54 +71,48 @@ const galleryForScript = items.map(({ src, alt }) => ({ src, alt }));
       </div>
     ) : (
       <>
-        <div class="space-y-5">
-          <ul class="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:gap-3">
-            {items.map((item, i) => (
-              <li>
-                <button
-                  type="button"
-                  class="js-event-gallery-open group relative h-28 w-full overflow-hidden rounded-card border border-black/[0.05] bg-fill text-left shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/35 sm:h-32 md:h-36"
-                  data-gallery-index={i}
-                  aria-label={`Open gallery: ${item.alt}`}
-                >
-                  <span class="absolute inset-0 block overflow-hidden">
-                    <img
-                      src={item.thumb}
-                      alt=""
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 360px"
-                      loading="eager"
-                      decoding="async"
-                      class="h-full w-full object-cover transition group-hover:scale-[1.02]"
-                    />
-                  </span>
-                  <span class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent px-2 py-2 text-left text-[11px] leading-prose text-white line-clamp-2 md:text-xs">
-                    {item.alt}
-                  </span>
-                </button>
-              </li>
-            ))}
-            {Array.from({ length: fillerSlots }).map((_, i) => (
-              <li>
-                <div
-                  class="flex h-28 w-full flex-col items-center justify-center gap-1 rounded-card border border-dashed border-black/[0.14] bg-fill px-2 text-center shadow-inner sm:h-32 md:h-36"
-                  role="img"
-                  aria-label="Image placeholder"
-                >
-                  <span class="font-mono text-[10px] font-medium uppercase tracking-widest text-text-secondary/70 md:text-xs">
-                    Image
-                  </span>
-                  <span class="text-[10px] leading-snug text-text-secondary/60 md:text-[11px]">
-                    More photos — to be added
-                  </span>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <p class="text-center text-xs leading-prose text-text-secondary">
-            Tap a photo for full screen. Use ‹ › or arrow keys in the preview to
-            move between images.
-          </p>
-        </div>
+        <ul class="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:gap-3">
+          {items.map((item, i) => (
+            <li>
+              <button
+                type="button"
+                class="js-event-gallery-open group relative h-28 w-full overflow-hidden rounded-card border border-black/[0.05] bg-fill text-left shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/35 sm:h-32 md:h-36"
+                data-gallery-index={i}
+                aria-label={`Open gallery: ${item.alt}`}
+              >
+                <span class="absolute inset-0 block overflow-hidden">
+                  <img
+                    src={item.thumb}
+                    alt=""
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 360px"
+                    loading="eager"
+                    decoding="async"
+                    class="h-full w-full object-cover object-top transition group-hover:scale-[1.02]"
+                  />
+                </span>
+                <span class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent px-2 py-2 text-left text-[11px] leading-prose text-white line-clamp-2 md:text-xs">
+                  {item.alt}
+                </span>
+              </button>
+            </li>
+          ))}
+          {Array.from({ length: fillerSlots }).map((_, i) => (
+            <li>
+              <div
+                class="flex h-28 w-full flex-col items-center justify-center gap-1 rounded-card border border-dashed border-black/[0.14] bg-fill px-2 text-center shadow-inner sm:h-32 md:h-36"
+                role="img"
+                aria-label="Image placeholder"
+              >
+                <span class="font-mono text-[10px] font-medium uppercase tracking-widest text-text-secondary/70 md:text-xs">
+                  Image
+                </span>
+                <span class="text-[10px] leading-snug text-text-secondary/60 md:text-[11px]">
+                  More photos — to be added
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
 
         <div
           id="event-gallery-overlay"
