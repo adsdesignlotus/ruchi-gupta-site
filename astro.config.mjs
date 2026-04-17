@@ -1,12 +1,12 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
-import node from "@astrojs/node";
+import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
   output: "hybrid",
-  adapter: node({ mode: "standalone" }),
+  adapter: vercel(),
   integrations: [
     // `experimentalReactChildren` re-parses slot HTML as React nodes, which breaks
     // nested client islands (e.g. PastEventContent inside ClientShell): props get
