@@ -33,13 +33,17 @@ export const eventsBySlug: Record<string, EventDetail> = {
     title: "18th Nrityarchitum",
     subtitle: "Shubham Karoti Kalyanam",
     heroImage: {
-      src: "/events/nrityarchitum-18-2026/poster.png",
-      alt: "NRITYACHITUM 2026 — ensemble in red and black Bharatanatyam costumes; event title and performance collage",
+      src: "/events/nrityarchitum-18-2026/cover.png",
+      alt: "18th Nrityarchitum — Shubham Karoti Kalyanam — Kirti Natya Niketan; classical Bharatanatyam performance poster",
     },
     slideshow: [
       {
+        localSrc: "/events/nrityarchitum-18-2026/cover.png",
+        alt: "18th Nrityarchitum — Shubham Karoti Kalyanam — event poster",
+      },
+      {
         localSrc: "/events/nrityarchitum-18-2026/poster.png",
-        alt: "NRITYACHITUM 2026 — promotional poster and performance collage",
+        alt: "NRITYACHITUM 2026 — ensemble collage and performance moments",
       },
     ],
     description: "A Celebration of Devotion through Dance",

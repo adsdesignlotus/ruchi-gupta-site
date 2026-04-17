@@ -7,8 +7,8 @@ import {
 } from "@/components/ImagePreviewProvider";
 
 /**
- * Fills a frame without cropping (letterboxed if aspect ratios differ).
- * Parent should set the frame size (e.g. aspect-square, aspect-video, or min-h).
+ * Fills a frame: default `contain` letterboxes; `cover` crops to avoid empty bands.
+ * Parent should set the frame size (e.g. aspect-square, aspect-video, or fixed height).
  * When `ImagePreviewProvider` is present, clicking opens a full-screen overlay (same tab).
  */
 export function FramedImage({
@@ -20,6 +20,7 @@ export function FramedImage({
   priority,
   previewable = true,
   gallery,
+  fit = "contain",
 }: {
   /** Public path or absolute URL; empty string renders a placeholder instead of crashing */
   src: string;
@@ -33,6 +34,8 @@ export function FramedImage({
   previewable?: boolean;
   /** When set, opens the preview as a group (next/prev within `items`). */
   gallery?: { items: GalleryItem[]; index: number };
+  /** `cover` fills the frame (crops); `contain` shows full image (may letterbox). */
+  fit?: "contain" | "cover";
 }) {
   const preview = useImagePreviewOptional();
   const canPreview = Boolean(preview && previewable);
@@ -95,7 +98,8 @@ export function FramedImage({
         loading={priority ? "eager" : "lazy"}
         decoding="async"
         className={cn(
-          "pointer-events-none absolute inset-0 h-full w-full object-contain object-center",
+          "pointer-events-none absolute inset-0 h-full w-full object-center",
+          fit === "cover" ? "object-cover" : "object-contain",
           imgClassName,
         )}
       />

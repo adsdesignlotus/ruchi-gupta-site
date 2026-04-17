@@ -16,6 +16,7 @@ export function AboutPortrait({
         <FramedImage
           src={src}
           alt={alt}
+          fit="cover"
           sizes="(max-width: 1024px) 100vw, 400px"
         />
       </div>

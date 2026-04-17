@@ -14,8 +14,8 @@ export function UpcomingEventContent({ event: e }: { event: EventDetail }) {
   const hasGallery = Boolean(e.slideshow?.length);
 
   const heroFrameClass = e.heroImage
-    ? "hover-zoom relative mb-10 aspect-[3/4] w-full max-w-[min(36rem,calc(100vw-2.5rem))] overflow-hidden rounded-card border border-black/[0.06] bg-fill shadow-card sm:mb-12 md:mb-16 md:max-w-xl lg:max-w-2xl"
-    : "hover-zoom relative mb-10 aspect-video w-full max-w-3xl min-w-0 overflow-hidden rounded-card border border-black/[0.06] bg-fill shadow-card sm:mb-12 md:mb-16";
+    ? "hover-zoom relative mb-8 h-56 w-full max-w-md overflow-hidden rounded-card border border-black/[0.06] bg-fill shadow-card sm:mb-10 sm:h-64 sm:max-w-lg md:mb-12 md:h-72"
+    : "hover-zoom relative mb-8 aspect-video w-full max-w-3xl min-w-0 overflow-hidden rounded-card border border-black/[0.06] bg-fill shadow-card sm:mb-10 md:mb-12";
 
   return (
     <div className="page-shell">
@@ -29,6 +29,7 @@ export function UpcomingEventContent({ event: e }: { event: EventDetail }) {
         <FramedImage
           src={hero.src}
           alt={hero.alt}
+          fit={e.heroImage ? "cover" : "contain"}
           sizes={
             e.heroImage
               ? "(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 672px"

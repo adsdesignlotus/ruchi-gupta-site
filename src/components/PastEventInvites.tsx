@@ -104,7 +104,7 @@ export function PastEventInvites({
                   : preview?.open(src, inv.label)
               }
             >
-              <div className="relative aspect-[3/4] w-full bg-fill p-3 md:p-4">
+              <div className="relative h-40 w-full overflow-hidden bg-fill sm:h-44">
                 {"localSrc" in inv ? (
                   <img
                     src={inv.localSrc}
@@ -113,7 +113,7 @@ export function PastEventInvites({
                     height={1067}
                     loading="lazy"
                     decoding="async"
-                    className="mx-auto max-h-[280px] w-auto object-contain"
+                    className="h-full w-full object-cover object-center"
                   />
                 ) : (
                   <img
@@ -123,11 +123,11 @@ export function PastEventInvites({
                     height={1067}
                     loading="lazy"
                     decoding="async"
-                    className="mx-auto max-h-[280px] w-auto object-contain"
+                    className="h-full w-full object-cover object-center"
                   />
                 )}
               </div>
-              <p className="border-t border-black/[0.05] p-card text-sm font-semibold leading-prose text-text-primary transition-colors group-hover:text-accent">
+              <p className="border-t border-black/[0.05] p-3 text-xs font-semibold leading-snug text-text-primary transition-colors group-hover:text-accent sm:p-4 sm:text-sm">
                 {inv.label} — tap to enlarge
               </p>
             </button>

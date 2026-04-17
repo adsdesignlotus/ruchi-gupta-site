@@ -64,13 +64,13 @@ export function PastEventSlideshow({
 
   return (
     <div className="space-y-5">
-      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:gap-4">
+      <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 md:gap-3">
         {cells.map(({ slide: s, galleryIndex, key }) => (
           <li key={key}>
             <button
               type="button"
               onClick={() => preview?.openGallery(galleryItems, galleryIndex)}
-              className="group relative aspect-[4/3] w-full overflow-hidden rounded-card border border-black/[0.05] bg-fill shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/35"
+              className="group relative h-28 w-full overflow-hidden rounded-card border border-black/[0.05] bg-fill shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-card-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/35 sm:h-32 md:h-36"
               aria-label={`Open gallery: ${s.alt}`}
             >
               <span className="absolute inset-0 block overflow-hidden">

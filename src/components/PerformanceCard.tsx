@@ -49,16 +49,17 @@ export function PerformanceCard({
 
   return (
     <article className="card-elevated relative flex flex-col">
-      <div className="hover-zoom relative aspect-square w-full overflow-hidden bg-fill">
+      <div className="hover-zoom relative h-40 w-full overflow-hidden bg-fill sm:h-44 md:h-48">
         <FramedImage
           src={image}
           alt={imageAlt}
+          fit="cover"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           gallery={gallery}
           previewable={!canOpenPreview}
         />
       </div>
-      <div className="relative z-[1] flex flex-1 flex-col p-card md:p-8">
+      <div className="relative z-[1] flex flex-1 flex-col p-4 md:p-5">
         <h3 className="font-serif text-subsection-title font-semibold tracking-heading text-text-primary">
           {title}
         </h3>

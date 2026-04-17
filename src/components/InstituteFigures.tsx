@@ -20,6 +20,7 @@ export function InstituteFigures() {
             <FramedImage
               src={entrance.src}
               alt={entrance.alt}
+              fit="cover"
               sizes="(max-width: 768px) 100vw, 512px"
               gallery={{ items: galleryItems, index: 0 }}
             />
@@ -35,6 +36,7 @@ export function InstituteFigures() {
               <FramedImage
                 src={studio.src}
                 alt={studio.alt}
+                fit="cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
                 gallery={{ items: galleryItems, index: 1 }}
               />
@@ -48,6 +50,7 @@ export function InstituteFigures() {
               <FramedImage
                 src={mudra.src}
                 alt={mudra.alt}
+                fit="cover"
                 sizes="(max-width: 768px) 100vw, 400px"
                 gallery={{ items: galleryItems, index: 2 }}
               />
@@ -63,6 +66,7 @@ export function InstituteFigures() {
             <FramedImage
               src={outdoor.src}
               alt={outdoor.alt}
+              fit="cover"
               sizes="(max-width: 1200px) 100vw, 1100px"
               gallery={{ items: galleryItems, index: 3 }}
             />

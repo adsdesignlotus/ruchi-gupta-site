@@ -14,7 +14,7 @@ export function PerformancesSection({ items }: { items: PerformanceItem[] }) {
 
   return (
     <ImagePreviewProvider>
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6">
         {items.map((p, index) => (
           <PerformanceCard
             key={p.title}

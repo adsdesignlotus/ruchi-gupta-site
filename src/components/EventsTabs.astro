@@ -22,9 +22,13 @@ function inviteSrcFor(ev: (typeof pastEventsList)[number]): string | null {
 }
 
 const upcomingCover = featuredUpcomingEvent.heroImage ?? eventsCardImage;
-const upcomingImageFrameClass = featuredUpcomingEvent.heroImage
-  ? "hover-zoom relative aspect-[3/4] overflow-hidden bg-fill"
-  : "hover-zoom relative aspect-video overflow-hidden bg-fill";
+/** Short fixed band — image uses object-cover so portraits fill without large letterboxing */
+const eventCardImageWrap =
+  "hover-zoom relative h-36 w-full overflow-hidden bg-fill sm:h-40 md:h-44";
+const eventCardBody =
+  "flex flex-1 flex-col p-4 md:p-5";
+const eventCardCta =
+  "hover-brightness mt-3 inline-flex w-fit items-center justify-center rounded-card bg-primary py-2.5 px-4 text-sm font-semibold text-white shadow-card transition hover:bg-primary-hover sm:mt-4";
 ---
 
 <div id="events-hub-tabs" class="events-hub-tabs">
@@ -83,13 +87,13 @@ const upcomingImageFrameClass = featuredUpcomingEvent.heroImage
     aria-labelledby="tab-upcoming"
     data-events-panel="Upcoming"
   >
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6">
       <a
         href={`/events/${featuredUpcomingEvent.slug}`}
         class="card-elevated flex flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
         data-visibility="public"
       >
-        <div class:list={[upcomingImageFrameClass]}>
+        <div class:list={[eventCardImageWrap]}>
           <div class="absolute inset-0 bg-fill">
             <img
               src={upcomingCover.src}
@@ -97,13 +101,13 @@ const upcomingImageFrameClass = featuredUpcomingEvent.heroImage
               sizes="(max-width: 1024px) 100vw, 400px"
               loading="eager"
               decoding="async"
-              class="pointer-events-none absolute inset-0 h-full w-full object-contain object-center"
+              class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
             />
           </div>
         </div>
-        <div class="flex flex-1 flex-col p-card md:p-8">
+        <div class:list={[eventCardBody]}>
           <div
-            class="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-secondary"
+            class="mb-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-text-secondary"
           >
             {
               isValidHtmlDateTime(featuredUpcomingEvent.whenIso) ? (
@@ -117,20 +121,18 @@ const upcomingImageFrameClass = featuredUpcomingEvent.heroImage
             <span>{featuredUpcomingEvent.city}</span>
           </div>
           <h3
-            class="font-serif text-subsection-title font-semibold tracking-heading text-text-primary"
+            class="font-serif text-subsection-title font-semibold leading-snug tracking-heading text-text-primary"
           >
             18th Nrityarchitum — Shubham Karoti Kalyanam
           </h3>
           <p
-            class="mt-2 flex-1 line-clamp-3 text-sm leading-prose text-text-secondary"
+            class="mt-1.5 flex-1 line-clamp-2 text-sm leading-snug text-text-secondary"
           >
             A celebration of devotion through dance — an evening of Bharatanatyam
             by Kirti Natya Niketan students, with concept and choreography by
             Kalashree Ruchi Gupta.
           </p>
-          <span
-            class="hover-brightness mt-6 inline-flex w-fit items-center justify-center rounded-card bg-primary py-3 px-5 text-sm font-semibold text-white shadow-card transition hover:bg-primary-hover"
-          >
+          <span class:list={[eventCardCta]}>
             View programme & details
           </span>
         </div>
@@ -145,7 +147,7 @@ const upcomingImageFrameClass = featuredUpcomingEvent.heroImage
     data-events-panel="Past"
     hidden
   >
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-6">
       {
         pastEventsList.map((ev) => {
           const inviteSrc = inviteSrcFor(ev);
@@ -155,7 +157,7 @@ const upcomingImageFrameClass = featuredUpcomingEvent.heroImage
               href={`/events/${ev.slug}`}
               class="card-elevated flex flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
             >
-              <div class="hover-zoom relative aspect-video overflow-hidden bg-fill">
+              <div class:list={[eventCardImageWrap]}>
                 {inviteSrc ? (
                   <div class="absolute inset-0 bg-fill">
                     <img
@@ -164,7 +166,7 @@ const upcomingImageFrameClass = featuredUpcomingEvent.heroImage
                       sizes="(max-width: 1024px) 100vw, 400px"
                       loading="lazy"
                       decoding="async"
-                      class="pointer-events-none absolute inset-0 h-full w-full object-contain object-center"
+                      class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
                     />
                   </div>
                 ) : (
@@ -177,8 +179,8 @@ const upcomingImageFrameClass = featuredUpcomingEvent.heroImage
                   </div>
                 )}
               </div>
-              <div class="flex flex-1 flex-col p-card md:p-8">
-                <div class="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-secondary">
+              <div class:list={[eventCardBody]}>
+                <div class="mb-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-text-secondary">
                   {isValidHtmlDateTime(ev.whenIso) ? (
                     <time datetime={ev.whenIso}>{ev.when}</time>
                   ) : (
@@ -186,15 +188,13 @@ const upcomingImageFrameClass = featuredUpcomingEvent.heroImage
                   )}
                   <span>{ev.city}</span>
                 </div>
-                <h3 class="font-serif text-subsection-title font-semibold tracking-heading text-text-primary">
+                <h3 class="font-serif text-subsection-title font-semibold leading-snug tracking-heading text-text-primary">
                   {ev.title}
                 </h3>
-                <p class="mt-2 flex-1 line-clamp-3 text-sm leading-prose text-text-secondary">
+                <p class="mt-1.5 flex-1 line-clamp-2 text-sm leading-snug text-text-secondary">
                   {ev.summary}
                 </p>
-                <span
-                  class="hover-brightness mt-6 inline-flex w-fit items-center justify-center rounded-card bg-primary py-3 px-5 text-sm font-semibold text-white shadow-card transition hover:bg-primary-hover"
-                >
+                <span class:list={[eventCardCta]}>
                   View invites & gallery
                 </span>
               </div>
