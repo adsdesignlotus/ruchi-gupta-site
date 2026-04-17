@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "clean": "rm -rf dist node_modules/.cache .astro",
     "reinstall": "rm -rf node_modules dist .astro package-lock.json && npm install",
