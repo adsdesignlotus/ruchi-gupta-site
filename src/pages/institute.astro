@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { InstituteFigures } from "@/components/InstituteFigures";
+import { PageHeader } from "@/components/PageHeader";
+import { site } from "@/lib/site";
+---
+
+<BaseLayout>
+  <div class="page-shell">
+    <PageHeader
+      title="Kirti Natya Niketan"
+      subtitle={`Kirti Natya Niketan, founded in 2008 in Delhi by Ruchi Gupta, is a space for the study and practice of Bharatanatyam. The institute offers systematic training in the classical repertoire, supports students through Arangetram and stage performances, and engages with cultural bodies and festivals. Under Ruchi's artistic direction, the emphasis is on tradition, discipline, and the growth of each dancer. For admissions, workshops, and collaborations: ${site.email}.`}
+    />
+
+    <InstituteFigures client:visible />
+    <p class="mt-6 text-center text-xs leading-prose text-text-secondary md:mt-8">
+      Tap any photo to enlarge. Use ‹ › or arrow keys to move between institute
+      photos.
+    </p>
+
+    <section class="mt-section-gap border-t border-black/[0.06] pt-12 md:mt-18">
+      <h3 class="mb-4 font-serif text-subsection-title font-semibold tracking-heading text-text-primary">
+        Contact the institute
+      </h3>
+      <a
+        href={`mailto:${site.email}`}
+        class="font-semibold text-accent underline-offset-4 hover:underline"
+      >
+        {site.email}
+      </a>
+      <p class="mt-4 text-left text-sm leading-prose text-text-secondary">
+        For admissions, workshops, and collaborations.
+      </p>
+    </section>
+  </div>
+</BaseLayout>

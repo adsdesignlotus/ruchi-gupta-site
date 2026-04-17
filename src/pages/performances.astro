@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { PageHeader } from "@/components/PageHeader";
+import { PerformancesSection } from "@/components/PerformancesSection";
+import { performances } from "@/lib/performances";
+---
+
+<BaseLayout>
+  <div class="page-shell">
+    <PageHeader
+      title="Performances"
+      subtitle="Ruchi Gupta has performed as a soloist and cultural representative across India and abroad. From temple and institutional recitals to ICCR festivals in Europe and Thailand, each engagement reflects a commitment to authenticity, clarity, and the shared language of Bharatanatyam. Below is a curated record of major and international performances."
+    />
+    <PerformancesSection client:visible items={performances} />
+    <p class="mt-8 text-center text-xs leading-prose text-text-secondary md:mt-10">
+      Tap a performance image to enlarge. Use ‹ › or arrow keys to move between
+      photos in this list.
+    </p>
+  </div>
+</BaseLayout>

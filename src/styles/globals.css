@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Surfaces */
+  --color-background: #f7f3ee;
+  --color-background-alt: #efe7dc;
+  --color-surface: #ffffff;
+  /* Text */
+  --color-text-primary: #2c2c2c;
+  --color-text-secondary: #6b6b6b;
+  /* Brand — calm charcoal + gold accent (sparingly) */
+  --color-primary: #45423e;
+  --color-primary-hover: #3a3835;
+  --color-gold: #c9a646;
+  --color-secondary: #c4b896;
+  --color-accent: #c9a646;
+  --color-divider: rgba(44, 44, 44, 0.07);
+  --color-highlight: #d9d0c2;
+  --color-maroon: #6b4548;
+  /* Image / frame wells */
+  --color-fill: #efe7dc;
+  /* Elevation */
+  --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover: 0 16px 48px rgba(0, 0, 0, 0.08);
+  --radius-card: 14px;
+  /* Typography */
+  --font-playfair: "Playfair Display", Georgia, serif;
+  --font-lato: "Lato", system-ui, sans-serif;
+  --font-cormorant: "Cormorant Garamond", Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  font-family: var(--font-lato), system-ui, sans-serif;
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  /** Accent lines — titles, Sanskrit, poetic emphasis (use sparingly) */
+  .type-accent-italic {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  /** Page content width + vertical rhythm */
+  .page-shell {
+    @apply mx-auto max-w-content px-page-mobile md:px-page-tablet lg:px-page-desktop;
+    padding-top: clamp(5rem, 7vw, 7.5rem);
+    padding-bottom: clamp(5rem, 7vw, 7.5rem);
+  }
+
+  /** Readable column for long copy (≈600–700px) */
+  .prose-reading {
+    @apply max-w-reading text-left text-base leading-prose text-text-secondary md:text-lg;
+  }
+
+  /** Premium card — white surface, soft shadow, lift on hover */
+  .card-elevated {
+    @apply overflow-hidden rounded-card border border-black/[0.04] bg-surface shadow-card;
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .card-elevated:hover {
+    @apply -translate-y-1 shadow-card-hover;
+  }
+}
+
+.hover-brightness:hover {
+  filter: brightness(1.04);
+}
+
+.hover-zoom {
+  overflow: hidden;
+}
+
+.hover-zoom [data-placeholder],
+.hover-zoom img {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.hover-zoom:hover [data-placeholder],
+.hover-zoom:hover img {
+  transform: scale(1.03);
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}

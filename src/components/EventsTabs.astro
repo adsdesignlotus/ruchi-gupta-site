@@ -1,0 +1,280 @@
+---
+import { cloudinaryImageUrl, getCloudinaryCloudName } from "@/lib/cloudinary";
+import { featuredUpcomingEvent } from "@/lib/events";
+import { isValidHtmlDateTime } from "@/lib/html-datetime";
+import { pastEventsList } from "@/lib/past-events";
+import { eventsCardImage } from "@/lib/site-images";
+
+const cloudName = getCloudinaryCloudName();
+
+const tabBtnBase =
+  "rounded-t-card border-b-2 px-4 py-3 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40";
+const tabBtnSelected = "border-accent text-text-primary";
+const tabBtnIdle =
+  "border-transparent text-text-secondary hover:text-accent";
+
+function inviteSrcFor(ev: (typeof pastEventsList)[number]): string | null {
+  if (ev.inviteLocalSrc) return ev.inviteLocalSrc;
+  if (cloudName && ev.invitePublicId) {
+    return cloudinaryImageUrl(cloudName, ev.invitePublicId, 1600);
+  }
+  return null;
+}
+
+const upcomingCover = featuredUpcomingEvent.heroImage ?? eventsCardImage;
+const upcomingImageFrameClass = featuredUpcomingEvent.heroImage
+  ? "hover-zoom relative aspect-[3/4] overflow-hidden bg-fill"
+  : "hover-zoom relative aspect-video overflow-hidden bg-fill";
+---
+
+<div id="events-hub-tabs" class="events-hub-tabs">
+  <div
+    class="mb-10 border-b border-black/[0.06]"
+    role="tablist"
+    aria-label="Event categories"
+  >
+    <div class="-mb-px flex flex-wrap gap-1">
+      <button
+        type="button"
+        role="tab"
+        aria-selected="true"
+        data-events-tab="Upcoming"
+        id="tab-upcoming"
+        class:list={[tabBtnBase, tabBtnSelected]}
+      >
+        Upcoming
+      </button>
+      <button
+        type="button"
+        role="tab"
+        aria-selected="false"
+        data-events-tab="Past"
+        id="tab-past"
+        class:list={[tabBtnBase, tabBtnIdle]}
+      >
+        Past
+      </button>
+      <button
+        type="button"
+        role="tab"
+        aria-selected="false"
+        data-events-tab="Workshops"
+        id="tab-workshops"
+        class:list={[tabBtnBase, tabBtnIdle]}
+      >
+        Workshops
+      </button>
+      <button
+        type="button"
+        role="tab"
+        aria-selected="false"
+        data-events-tab="Tours"
+        id="tab-tours"
+        class:list={[tabBtnBase, tabBtnIdle]}
+      >
+        Tours
+      </button>
+    </div>
+  </div>
+
+  <div
+    role="tabpanel"
+    id="panel-upcoming"
+    aria-labelledby="tab-upcoming"
+    data-events-panel="Upcoming"
+  >
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <a
+        href={`/events/${featuredUpcomingEvent.slug}`}
+        class="card-elevated flex flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
+        data-visibility="public"
+      >
+        <div class:list={[upcomingImageFrameClass]}>
+          <div class="absolute inset-0 bg-fill">
+            <img
+              src={upcomingCover.src}
+              alt={upcomingCover.alt}
+              sizes="(max-width: 1024px) 100vw, 400px"
+              loading="eager"
+              decoding="async"
+              class="pointer-events-none absolute inset-0 h-full w-full object-contain object-center"
+            />
+          </div>
+        </div>
+        <div class="flex flex-1 flex-col p-card md:p-8">
+          <div
+            class="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-secondary"
+          >
+            {
+              isValidHtmlDateTime(featuredUpcomingEvent.whenIso) ? (
+                <time datetime={featuredUpcomingEvent.whenIso}>
+                  {featuredUpcomingEvent.when}
+                </time>
+              ) : (
+                <span>{featuredUpcomingEvent.when}</span>
+              )
+            }
+            <span>{featuredUpcomingEvent.city}</span>
+          </div>
+          <h3
+            class="font-serif text-subsection-title font-semibold tracking-heading text-text-primary"
+          >
+            18th Nrityarchitum — Shubham Karoti Kalyanam
+          </h3>
+          <p
+            class="mt-2 flex-1 line-clamp-3 text-sm leading-prose text-text-secondary"
+          >
+            A celebration of devotion through dance — an evening of Bharatanatyam
+            by Kirti Natya Niketan students, with concept and choreography by
+            Kalashree Ruchi Gupta.
+          </p>
+          <span
+            class="hover-brightness mt-6 inline-flex w-fit items-center justify-center rounded-card bg-primary py-3 px-5 text-sm font-semibold text-white shadow-card transition hover:bg-primary-hover"
+          >
+            View programme & details
+          </span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div
+    role="tabpanel"
+    id="panel-past"
+    aria-labelledby="tab-past"
+    data-events-panel="Past"
+    hidden
+  >
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {
+        pastEventsList.map((ev) => {
+          const inviteSrc = inviteSrcFor(ev);
+          const inviteAlt = `Invitation — ${ev.title}`;
+          return (
+            <a
+              href={`/events/${ev.slug}`}
+              class="card-elevated flex flex-col no-underline text-inherit outline-none transition-colors focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2"
+            >
+              <div class="hover-zoom relative aspect-video overflow-hidden bg-fill">
+                {inviteSrc ? (
+                  <div class="absolute inset-0 bg-fill">
+                    <img
+                      src={inviteSrc}
+                      alt={inviteAlt}
+                      sizes="(max-width: 1024px) 100vw, 400px"
+                      loading="lazy"
+                      decoding="async"
+                      class="pointer-events-none absolute inset-0 h-full w-full object-contain object-center"
+                    />
+                  </div>
+                ) : (
+                  <div class="absolute inset-0 flex items-center justify-center bg-fill px-4 text-center text-xs text-text-secondary">
+                    Add{" "}
+                    <code class="mx-1 rounded bg-background px-1">
+                      PUBLIC_CLOUDINARY_CLOUD_NAME
+                    </code>{" "}
+                    or a local invite image in data
+                  </div>
+                )}
+              </div>
+              <div class="flex flex-1 flex-col p-card md:p-8">
+                <div class="mb-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-secondary">
+                  {isValidHtmlDateTime(ev.whenIso) ? (
+                    <time datetime={ev.whenIso}>{ev.when}</time>
+                  ) : (
+                    <span>{ev.when}</span>
+                  )}
+                  <span>{ev.city}</span>
+                </div>
+                <h3 class="font-serif text-subsection-title font-semibold tracking-heading text-text-primary">
+                  {ev.title}
+                </h3>
+                <p class="mt-2 flex-1 line-clamp-3 text-sm leading-prose text-text-secondary">
+                  {ev.summary}
+                </p>
+                <span
+                  class="hover-brightness mt-6 inline-flex w-fit items-center justify-center rounded-card bg-primary py-3 px-5 text-sm font-semibold text-white shadow-card transition hover:bg-primary-hover"
+                >
+                  View invites & gallery
+                </span>
+              </div>
+            </a>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <div
+    role="tabpanel"
+    id="panel-workshops"
+    aria-labelledby="tab-workshops"
+    data-events-panel="Workshops"
+    hidden
+    class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3"
+  >
+  </div>
+
+  <div
+    role="tabpanel"
+    id="panel-tours"
+    aria-labelledby="tab-tours"
+    data-events-panel="Tours"
+    hidden
+    class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3"
+  >
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var btnSel =
+      "rounded-t-card border-b-2 px-4 py-3 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 border-accent text-text-primary";
+    var btnIdle =
+      "rounded-t-card border-b-2 px-4 py-3 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 border-transparent text-text-secondary hover:text-accent";
+
+    function bind(root) {
+      if (!root || root.dataset.eventsTabsBound === "1") return;
+      root.dataset.eventsTabsBound = "1";
+
+      function activate(key) {
+        var buttons = root.querySelectorAll("[data-events-tab]");
+        var panels = root.querySelectorAll("[data-events-panel]");
+        buttons.forEach(function (btn) {
+          var k = btn.getAttribute("data-events-tab");
+          var isSel = k === key;
+          btn.setAttribute("aria-selected", isSel ? "true" : "false");
+          btn.className = isSel ? btnSel : btnIdle;
+        });
+        panels.forEach(function (panel) {
+          var pk = panel.getAttribute("data-events-panel");
+          if (pk === key) panel.removeAttribute("hidden");
+          else panel.setAttribute("hidden", "");
+        });
+      }
+
+      root.addEventListener("click", function (e) {
+        var t = e.target && e.target.closest("[data-events-tab]");
+        if (!t || !root.contains(t)) return;
+        var key = t.getAttribute("data-events-tab");
+        if (key) activate(key);
+      });
+
+      var initial = "Upcoming";
+      root.querySelectorAll("[data-events-tab]").forEach(function (btn) {
+        if (btn.getAttribute("aria-selected") === "true") {
+          var k = btn.getAttribute("data-events-tab");
+          if (k) initial = k;
+        }
+      });
+      activate(initial);
+    }
+
+    function init() {
+      bind(document.getElementById("events-hub-tabs"));
+    }
+
+    init();
+    document.addEventListener("astro:page-load", init);
+  })();
+</script>

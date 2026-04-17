@@ -1,0 +1,43 @@
+---
+import "../styles/globals.css";
+import { WatermarkBg } from "@/components/Watermark";
+import ClientShell from "@/components/ClientShell";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Ruchi Gupta | Bharatanatyam Exponent & Cultural Ambassador",
+  description =
+    "Ruchi Gupta is a Bharatanatyam artist, graded Doordarshan artist, and Founder of Kirti Natya Niketan. Trained in the Pandanallur and Thanjavur traditions.",
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en" class="font-sans">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Lato:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="flex min-h-screen flex-col bg-background text-text-primary">
+    <WatermarkBg />
+    <ClientShell client:load pathname={pathname}>
+      <slot />
+    </ClientShell>
+  </body>
+</html>

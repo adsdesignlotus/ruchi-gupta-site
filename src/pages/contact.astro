@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { PageHeader } from "@/components/PageHeader";
+import { ContactForm } from "@/components/ContactForm";
+---
+
+<BaseLayout>
+  <div class="page-shell">
+    <PageHeader
+      title="Connect"
+      subtitle="For performance bookings, collaborations, teaching inquiries, or information about Kirti Natya Niketan, please reach out."
+    />
+    <ContactForm client:load />
+  </div>
+</BaseLayout>

@@ -1,0 +1,71 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { AboutPortrait } from "@/components/AboutPortrait";
+import { PageHeader } from "@/components/PageHeader";
+import { aboutPortrait } from "@/lib/site-images";
+---
+
+<BaseLayout>
+  <div class="page-shell">
+    <PageHeader
+      title="About Ruchi Gupta"
+      subtitle="Ruchi Gupta embodies Bharatanatyam as performer, teacher, and cultural ambassador. Her path is rooted in tradition and refined through rigorous training and decades of practice."
+    />
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14">
+      <div class="lg:col-span-5">
+        <AboutPortrait
+          client:visible
+          src={aboutPortrait.src}
+          alt={aboutPortrait.alt}
+        />
+      </div>
+      <div class="space-y-section-gap lg:col-span-7">
+        <section aria-labelledby="training-heading">
+          <h3
+            id="training-heading"
+            class="mb-4 font-serif text-subsection-title font-semibold tracking-heading text-text-primary"
+          >
+            Training & lineage
+          </h3>
+          <p class="max-w-reading text-left text-base leading-prose text-text-secondary md:text-lg">
+            She trained in the Pandanallur bani under Guru Smt. Sujata Dinesh at
+            Rukmini Devi Lalit Kala Kendra, and in the Thanjavur bani under
+            Padmabhushan Dr. Saroja Vaidyanathan. She completed her Arangetram in
+            2005 and received further training under Guru Kiron Subramanium in
+            Bangalore. Mridangam under Guru K.N. Padmanabhan deepened her sense of
+            rhythm and continues to inform her dance.
+          </p>
+        </section>
+        <section aria-labelledby="scholar-heading">
+          <h3
+            id="scholar-heading"
+            class="mb-4 font-serif text-subsection-title font-semibold tracking-heading text-text-primary"
+          >
+            Scholar & artist
+          </h3>
+          <p class="max-w-reading text-left text-base leading-prose text-text-secondary md:text-lg">
+            She holds a Post Graduation in Bharatanatyam and Carnatic Music from
+            Indira Kala Sangit Vishwavidyalaya, Khairagarh, and has been awarded a
+            Junior Research Fellowship by the Ministry of Culture (CCRT). She is
+            empanelled with UNESCO, CCRT, and ABHAI, and is a graded artist of
+            Doordarshan.
+          </p>
+        </section>
+        <section aria-labelledby="today-heading">
+          <h3
+            id="today-heading"
+            class="mb-4 font-serif text-subsection-title font-semibold tracking-heading text-text-primary"
+          >
+            Today
+          </h3>
+          <p class="max-w-reading text-left text-base leading-prose text-text-secondary md:text-lg">
+            Based in Delhi, she directs Kirti Natya Niketan, mentors students to
+            Arangetram and beyond, and represents Indian classical dance at
+            national and international platforms. Her work remains dedicated to
+            preserving the art form and nurturing the next generation.
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { PageHeader } from "@/components/PageHeader";
+import EventsTabs from "@/components/EventsTabs.astro";
+---
+
+<BaseLayout>
+  <div class="page-shell">
+    <PageHeader
+      title="Events Hub"
+      subtitle="Upcoming performances, workshops, and tours. Login-based visibility will be applied later."
+    />
+    <EventsTabs />
+  </div>
+</BaseLayout>

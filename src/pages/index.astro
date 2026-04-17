@@ -1,0 +1,155 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { FadeIn } from "@/components/FadeIn";
+import { HomeGalleryMasonry } from "@/components/HomeGalleryMasonry";
+import { InstagramFeed } from "@/components/InstagramFeed";
+import { PerformancesSection } from "@/components/PerformancesSection";
+import { performances } from "@/lib/performances";
+
+const preview = performances.slice(0, 3);
+---
+
+<BaseLayout>
+  <section class="page-shell" aria-label="Introduction">
+    <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14">
+      <div
+        class="order-2 text-center lg:order-1 lg:col-span-6 lg:text-left"
+      >
+        <p
+          class="type-accent-italic mb-5 text-sm uppercase tracking-widest text-text-primary md:text-base"
+        >
+          Bharatanatyam Exponent · Cultural Ambassador · Guru
+        </p>
+        <p class="mx-auto max-w-reading text-left text-base leading-prose text-text-primary md:mx-0 md:text-lg">
+          Ruchi Gupta is a Bharatanatyam artist, graded Doordarshan artist, and
+          Founder of Kirti Natya Niketan. Trained in the Pandanallur and Thanjavur
+          traditions, she has performed across India and abroad under the Indian
+          Council for Cultural Relations. Her practice is recognised for its
+          rhythm, rasa, and poise—BBC has named her an Upcoming Beautiful Dancer.
+          She continues to perform, teach, and carry the art form forward from
+          Delhi.
+        </p>
+        <p
+          class="mt-8 flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm leading-prose text-text-secondary md:justify-start md:text-base"
+        >
+          <a class="transition-colors hover:text-accent" href="/about"
+            >Explore her journey</a
+          >
+          <span aria-hidden>·</span>
+          <a class="transition-colors hover:text-accent" href="/performances"
+            >View performances</a
+          >
+          <span aria-hidden>·</span>
+          <a class="transition-colors hover:text-accent" href="/contact"
+            >Connect with the institute</a
+          >
+        </p>
+      </div>
+      <div class="order-1 w-full overflow-hidden lg:order-2 lg:col-span-6">
+        <img
+          src="/images/hero-dancer.png"
+          alt="Ruchi Gupta Bharatanatyam"
+          width="577"
+          height="433"
+          class="mx-auto block w-full max-w-md rounded-card shadow-card transition-transform duration-500 hover:scale-[1.02] lg:max-w-none"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </section>
+
+  <FadeIn client:visible>
+    <section class="bg-section" aria-labelledby="performances-heading">
+      <div class="page-shell">
+        <header class="mb-10 md:mb-12">
+          <h2
+            id="performances-heading"
+            class="font-serif text-section-title font-semibold tracking-heading text-text-primary"
+          >
+            Performances
+          </h2>
+          <p class="mt-5 max-w-reading text-left text-base leading-prose text-text-secondary md:mt-6 md:text-lg">
+            A selection of major and international performances.
+          </p>
+        </header>
+        <PerformancesSection client:visible items={preview} />
+        <div class="mt-12 text-center md:mt-14">
+          <a
+            class="hover-brightness inline-flex items-center justify-center rounded-card bg-primary px-8 py-3 text-sm font-semibold text-white shadow-card transition hover:bg-primary-hover"
+            href="/performances"
+          >
+            View all performances
+          </a>
+        </div>
+      </div>
+    </section>
+  </FadeIn>
+
+  <FadeIn client:visible>
+    <section aria-labelledby="media-heading">
+      <div class="page-shell">
+        <header class="mb-10 md:mb-12">
+          <h2
+            id="media-heading"
+            class="font-serif text-section-title font-semibold tracking-heading text-text-primary"
+          >
+            In the media
+          </h2>
+          <p class="mt-5 max-w-reading text-left text-base leading-prose text-text-secondary md:mt-6 md:text-lg">
+            Ruchi's work has been recognised in print and broadcast. BBC featured
+            her as an Upcoming Beautiful Dancer. Publications such as Jansatta,
+            Hindustan Times, Punjab Kesari, Dainik Jagran, Times of India, and
+            Dinamani have highlighted her abhinaya and nritta, her strong footwork
+            and poise, and her promise as a leading exponent of the form. This
+            recognition reflects the regard in which her artistry is held within
+            the classical dance community and beyond.
+          </p>
+        </header>
+      </div>
+    </section>
+  </FadeIn>
+
+  <FadeIn client:visible>
+    <section class="bg-section" aria-labelledby="gallery-heading">
+      <div class="page-shell">
+        <header class="mb-10 md:mb-12">
+          <h2
+            id="gallery-heading"
+            class="font-serif text-section-title font-semibold tracking-heading text-text-primary"
+          >
+            Gallery
+          </h2>
+          <p class="mt-5 max-w-reading text-left text-base leading-prose text-text-secondary md:mt-6 md:text-lg">
+            Moments from the stage and the classroom.
+          </p>
+        </header>
+        <HomeGalleryMasonry client:visible />
+        <p
+          class="mt-4 text-center text-xs leading-prose text-text-secondary md:mt-5"
+        >
+          Tap a photo for full screen. Use ‹ › or arrow keys when there is more
+          than one image in the gallery.
+        </p>
+      </div>
+    </section>
+  </FadeIn>
+
+  <FadeIn client:visible>
+    <section class="page-shell" aria-labelledby="instagram-heading">
+      <header class="mb-8 md:mb-10">
+        <h2
+          id="instagram-heading"
+          class="font-serif text-section-title font-semibold tracking-heading text-text-primary"
+        >
+          Instagram
+        </h2>
+        <p class="mt-5 max-w-reading text-left text-base leading-prose text-text-secondary md:mt-6 md:text-lg">
+          Latest from the studio and stage — follow for updates and behind the
+          scenes.
+        </p>
+      </header>
+      <InstagramFeed client:visible />
+    </section>
+  </FadeIn>
+</BaseLayout>
