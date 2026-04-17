@@ -6,12 +6,15 @@ import ClientShell from "@/components/ClientShell";
 interface Props {
   title?: string;
   description?: string;
+  /** When true, slot is not wrapped in `ClientShell` (use for pages that ship their own shell island). */
+  omitClientShell?: boolean;
 }
 
 const {
   title = "Ruchi Gupta | Bharatanatyam Exponent & Cultural Ambassador",
   description =
     "Ruchi Gupta is a Bharatanatyam artist, graded Doordarshan artist, and Founder of Kirti Natya Niketan. Trained in the Pandanallur and Thanjavur traditions.",
+  omitClientShell = false,
 } = Astro.props;
 
 const pathname = Astro.url.pathname;
@@ -39,8 +42,14 @@ const pathname = Astro.url.pathname;
   </head>
   <body class="flex min-h-screen flex-col bg-background text-text-primary">
     <WatermarkBg />
-    <ClientShell client:load pathname={pathname}>
-      <slot />
-    </ClientShell>
+    {
+      omitClientShell ? (
+        <slot />
+      ) : (
+        <ClientShell client:load pathname={pathname}>
+          <slot />
+        </ClientShell>
+      )
+    }
   </body>
 </html>

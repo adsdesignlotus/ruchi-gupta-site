@@ -1,9 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import EventPageClient from "@/components/EventPageClient";
 import { eventsBySlug } from "@/lib/events";
 import { pastEventsBySlug } from "@/lib/past-events";
-import { PastEventContent } from "@/components/PastEventContent";
-import { UpcomingEventContent } from "@/components/UpcomingEventContent";
 
 export function getStaticPaths() {
   const slugs = [
@@ -20,14 +19,15 @@ const e = past ?? upcoming;
 if (!e) {
   return Astro.redirect("/404");
 }
+
+const pathname = Astro.url.pathname;
 ---
 
-<BaseLayout title={e.metaTitle} description={e.description}>
-  {
-    past ? (
-      <PastEventContent client:load event={past} />
-    ) : (
-      <UpcomingEventContent client:load event={upcoming!} />
-    )
-  }
+<BaseLayout title={e.metaTitle} description={e.description} omitClientShell>
+  <EventPageClient
+    client:load
+    pathname={pathname}
+    past={past}
+    upcoming={upcoming}
+  />
 </BaseLayout>
