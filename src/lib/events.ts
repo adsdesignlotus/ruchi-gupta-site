@@ -7,6 +7,8 @@ export type EventDetail = {
   subtitle?: string;
   /** Detail page + Events hub cover when set (public URL under `/public`) */
   heroImage?: { src: string; alt: string };
+  /** Short blurb on the Events hub card (optional; falls back to `description`) */
+  listSummary?: string;
   /** Same shape as past events — local paths and/or Cloudinary `publicId` */
   slideshow?: PastSlideshowSlide[];
   description: string;
@@ -46,6 +48,8 @@ export const eventsBySlug: Record<string, EventDetail> = {
         alt: "NRITYACHITUM 2026 — ensemble collage and performance moments",
       },
     ],
+    listSummary:
+      "A celebration of devotion through dance — an evening of Bharatanatyam by Kirti Natya Niketan students, with concept and choreography by Kalashree Ruchi Gupta.",
     description: "A Celebration of Devotion through Dance",
     metaTitle:
       "18th Nrityarchitum — 26th April 2026, Delhi — Shubham Karoti Kalyanam | Ruchi Gupta",

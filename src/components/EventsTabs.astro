@@ -21,7 +21,13 @@ function inviteSrcFor(ev: (typeof pastEventsList)[number]): string | null {
   return null;
 }
 
-const upcomingCover = featuredUpcomingEvent.heroImage ?? eventsCardImage;
+/** Hub card image: always prefer the event’s hero (e.g. `/events/.../cover.png`). */
+const upcomingCardImage = featuredUpcomingEvent.heroImage ?? eventsCardImage;
+const upcomingCardTitle = featuredUpcomingEvent.subtitle
+  ? `${featuredUpcomingEvent.title} — ${featuredUpcomingEvent.subtitle}`
+  : featuredUpcomingEvent.title;
+const upcomingCardSummary =
+  featuredUpcomingEvent.listSummary ?? featuredUpcomingEvent.description;
 /** Short fixed band — image uses object-cover so portraits fill without large letterboxing */
 const eventCardImageWrap =
   "hover-zoom relative h-36 w-full overflow-hidden bg-fill sm:h-40 md:h-44";
@@ -96,11 +102,12 @@ const eventCardCta =
         <div class:list={[eventCardImageWrap]}>
           <div class="absolute inset-0 bg-fill">
             <img
-              src={upcomingCover.src}
-              alt={upcomingCover.alt}
+              src={upcomingCardImage.src}
+              alt={upcomingCardImage.alt}
               sizes="(max-width: 1024px) 100vw, 400px"
               loading="eager"
               decoding="async"
+              fetchpriority="high"
               class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
             />
           </div>
@@ -123,14 +130,12 @@ const eventCardCta =
           <h3
             class="font-serif text-subsection-title font-semibold leading-snug tracking-heading text-text-primary"
           >
-            18th Nrityarchitum — Shubham Karoti Kalyanam
+            {upcomingCardTitle}
           </h3>
           <p
             class="mt-1.5 flex-1 line-clamp-2 text-sm leading-snug text-text-secondary"
           >
-            A celebration of devotion through dance — an evening of Bharatanatyam
-            by Kirti Natya Niketan students, with concept and choreography by
-            Kalashree Ruchi Gupta.
+            {upcomingCardSummary}
           </p>
           <span class:list={[eventCardCta]}>
             View programme & details
