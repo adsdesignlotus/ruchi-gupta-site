@@ -9,9 +9,9 @@
   "scripts": {
     "clean": "rm -rf dist node_modules/.cache .astro",
     "reinstall": "rm -rf node_modules dist .astro package-lock.json && npm install",
-    "dev": "astro dev",
-    "dev:clean": "npm run clean && astro dev",
-    "build": "astro build",
+    "dev": "node ./scripts/node-version-hint.mjs && astro dev",
+    "dev:clean": "npm run clean && node ./scripts/node-version-hint.mjs && astro dev",
+    "build": "node ./scripts/node-version-hint.mjs && astro build",
     "preview": "npx --yes vercel dev",
     "astro": "astro",
     "check": "npm run build",
