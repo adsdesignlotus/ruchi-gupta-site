@@ -174,9 +174,10 @@ export function AdminEventPhotosApp({ slugLabels }: Props) {
     <div className="space-y-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-text-secondary">
-          Toggle visibility and paste HTTPS links. Visitors only see this block
-          when <span className="font-medium text-text-primary">Show on site</span>{" "}
-          is on and at least one URL is set.
+          Toggle visibility and paste HTTPS links. When{" "}
+          <span className="font-medium text-text-primary">Show on site</span> is on,
+          the event page shows the &ldquo;More photos&rdquo; section right away; add
+          at least one URL for the Drive / Cloudinary buttons to appear.
         </p>
         <button
           type="button"

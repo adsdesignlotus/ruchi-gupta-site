@@ -15,15 +15,17 @@ export const GET: APIRoute = async ({ url }) => {
     });
   }
 
+  const noStore = {
+    "Content-Type": "application/json",
+    "Cache-Control": "private, no-store, max-age=0",
+  } as const;
+
   const map = await getMergedPhotoLinksMap();
   const links = getPublicPhotoLinksForSlug(map, slug);
   if (!links) {
     return new Response(JSON.stringify({ ok: true, visible: false }), {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
-      },
+      headers: noStore,
     });
   }
 
@@ -36,10 +38,7 @@ export const GET: APIRoute = async ({ url }) => {
     }),
     {
       status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
-      },
+      headers: noStore,
     },
   );
 };

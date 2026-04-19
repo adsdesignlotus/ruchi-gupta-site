@@ -32,8 +32,14 @@ function emptyEntry(): EventPhotoLinkEntry {
 function normalizeEntry(raw: unknown): EventPhotoLinkEntry {
   if (!raw || typeof raw !== "object") return emptyEntry();
   const o = raw as Record<string, unknown>;
+  let enabled = false;
+  if (o.enabled === true || o.enabled === 1) enabled = true;
+  else if (o.enabled === false || o.enabled === 0) enabled = false;
+  else if (typeof o.enabled === "string") {
+    enabled = o.enabled.trim().toLowerCase() === "true" || o.enabled === "1";
+  }
   return {
-    enabled: Boolean(o.enabled),
+    enabled,
     googleDriveUrl:
       typeof o.googleDriveUrl === "string" ? o.googleDriveUrl.trim() : "",
     cloudinaryUrl:
@@ -96,11 +102,11 @@ export async function getMergedPhotoLinksMap(): Promise<EventPhotoLinksMap> {
   const fromRedis = (await readRedisOverlay()) ?? {};
   const out: EventPhotoLinksMap = {};
   for (const slug of slugs) {
-    out[slug] = {
+    out[slug] = normalizeEntry({
       ...emptyEntry(),
       ...fromFile[slug],
       ...fromRedis[slug],
-    };
+    });
   }
   return out;
 }
@@ -146,18 +152,21 @@ export function validatePhotoLinkEntry(e: EventPhotoLinkEntry): string | null {
   return null;
 }
 
+/** Public payload when the admin has turned the block on for this slug. */
 export function getPublicPhotoLinksForSlug(
   map: EventPhotoLinksMap,
   slug: string,
-): { googleDriveUrl: string | null; cloudinaryUrl: string | null } | null {
+): {
+  googleDriveUrl: string | null;
+  cloudinaryUrl: string | null;
+} | null {
   const e = map[slug];
   if (!e?.enabled) return null;
   const g = e.googleDriveUrl.trim();
   const c = e.cloudinaryUrl.trim();
-  if (!g && !c) return null;
   return {
-    googleDriveUrl: g || null,
-    cloudinaryUrl: c || null,
+    googleDriveUrl: g ? g : null,
+    cloudinaryUrl: c ? c : null,
   };
 }
 
@@ -175,7 +184,7 @@ export async function savePhotoLinksMap(
 
   const redis = tryRedis();
   if (redis) {
-    await redis.set(REDIS_KEY, JSON.stringify(cleaned));
+    await redis.set(REDIS_KEY, cleaned);
     return { ok: true };
   }
 
