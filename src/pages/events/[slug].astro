@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import EventFooter from "@/components/event/EventFooter.astro";
 import EventGallery from "@/components/event/EventGallery.astro";
-import EventNav from "@/components/event/EventNav.astro";
+import { Footer } from "@/components/Footer";
+import { Nav } from "@/components/Nav";
 import { eventsBySlug } from "@/lib/events";
 import { pastEventsBySlug } from "@/lib/past-events";
 import { workshopsBySlug } from "@/lib/workshops";
@@ -33,7 +33,7 @@ const isWorkshop = Boolean(workshop);
 
 <BaseLayout title={e.metaTitle} description={e.description} omitClientShell>
   <div class="relative z-10 flex min-h-screen w-full flex-col bg-background">
-    <EventNav pathname={pathname} />
+    <Nav client:load pathname={pathname} />
     <main class="min-w-0 flex-1">
       {
         isPast ? (
@@ -278,6 +278,6 @@ const isWorkshop = Boolean(workshop);
         )
       }
     </main>
-    <EventFooter />
+    <Footer />
   </div>
 </BaseLayout>
