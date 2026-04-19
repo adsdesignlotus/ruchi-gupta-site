@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import EventGallery from "@/components/event/EventGallery.astro";
+import { EventExternalPhotoLinks } from "@/components/EventExternalPhotoLinks";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { eventsBySlug } from "@/lib/events";
@@ -89,6 +90,7 @@ const isWorkshop = Boolean(workshop);
               </header>
               <EventGallery slides={[...past!.gallery, ...past!.slideshow]} />
             </section>
+            <EventExternalPhotoLinks client:load slug={slug} />
           </div>
         ) : isWorkshop ? (
           <div class="page-shell">
@@ -143,6 +145,7 @@ const isWorkshop = Boolean(workshop);
               </header>
               <EventGallery slides={[...workshop!.gallery, ...workshop!.photos]} />
             </section>
+            <EventExternalPhotoLinks client:load slug={slug} />
           </div>
         ) : (
           <div class="page-shell">
@@ -274,6 +277,7 @@ const isWorkshop = Boolean(workshop);
                 emptyCaption="Posters, invitations, and rehearsal photos will appear here once they are added for this event."
               />
             </section>
+            <EventExternalPhotoLinks client:load slug={slug} />
           </div>
         )
       }

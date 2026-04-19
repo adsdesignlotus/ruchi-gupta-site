@@ -7,6 +7,8 @@ interface Props {
   description?: string;
   /** When true, slot is not wrapped in `ClientShell` (use for pages that ship their own shell island). */
   omitClientShell?: boolean;
+  /** Search engines: omit from indexing (e.g. admin). */
+  robotsNoindex?: boolean;
 }
 
 const {
@@ -14,6 +16,7 @@ const {
   description =
     "Ruchi Gupta is a Bharatanatyam artist, graded Doordarshan artist, and Founder of Kirti Natya Niketan. Trained in the Pandanallur and Thanjavur traditions.",
   omitClientShell = false,
+  robotsNoindex = false,
 } = Astro.props;
 
 const pathname = Astro.url.pathname;
@@ -30,6 +33,9 @@ const pathname = Astro.url.pathname;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {robotsNoindex ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : null}
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <link rel="icon" type="image/png" href="/icon.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
