@@ -113,7 +113,7 @@ export const eventsBySlug: Record<string, EventDetail> = {
       { label: "Photography & videography", value: "Sh. Naresh Gulati" },
       { label: "Makeup", value: "Sh. Subhash Gupta" },
       { label: "Costumes", value: "Sh. Kishan Lal" },
-      { label: "Design", value: "Smt. Suchitra A. D." },
+      { label: "Design", value: "Smt. Suchitra A D" },
     ],
   },
 };
